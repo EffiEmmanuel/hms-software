@@ -14,7 +14,7 @@ function Navbar() {
       <div className='app-navbar-content'>
         <h2>Internistika</h2>
         <ul>
-          <NavItem icon={homeIcon} text='Home' link='/' />
+          <NavItem icon={homeIcon} text='Home' link='/dashboard' />
           <NavItem icon={accountIcon} text='Account' link='/account' />
           <NavItem icon={patientsIcon} text='Patients' link='/patients' />
           <NavItem icon={visitsIcon} text='Visits' link='/visits' />

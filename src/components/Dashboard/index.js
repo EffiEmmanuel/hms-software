@@ -4,8 +4,12 @@ import logoutIcon from '../../assets/icons/logout-black.png'
 import patientsIcon from '../../assets/icons/total-patients.png'
 import doctorsIcon from '../../assets/icons/doctor.png'
 import visitsIcon from '../../assets/icons/schedule.png'
+import useDocumentTitle from '../../hooks/useDocumentTitle'
 
 function Dashboard() {
+
+  useDocumentTitle('Internistika | Dashboard')
+
   return (
     <div className='main-content' id='main'>
       <div className='main-content-top'>

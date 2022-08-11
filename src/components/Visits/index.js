@@ -5,9 +5,13 @@ import logoutIcon from '../../assets/icons/logout-black.png'
 import deleteIcon from '../../assets/icons/delete.png'
 import doneIcon from '../../assets/icons/done.png'
 import plusIcon from '../../assets/icons/patients-icon2.png'
+import useDocumentTitle from '../../hooks/useDocumentTitle'
 
 
 function Visits() {
+
+  useDocumentTitle('Internistika | Visits')
+
   const [currentTab, setCurrentTab] = useState(true)
   const [addVisitTab, setAddVisitTab] = useState(true)
   const [ViewVisitsTab, setViewVisitsTab] = useState(false)

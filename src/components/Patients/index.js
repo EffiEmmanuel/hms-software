@@ -4,9 +4,13 @@ import styled from 'styled-components'
 import logoutIcon from '../../assets/icons/logout-black.png'
 import plusIcon from '../../assets/icons/patients-icon2.png'
 import AppointmentCard from '../AppointmentCard'
+import useDocumentTitle from '../../hooks/useDocumentTitle'
 
 
 function Patients() {
+
+    useDocumentTitle('Internistika | Patients')
+
     const [currentTab, setCurrentTab] = useState(true)
     const [registerTab, setRegisterTab] = useState(true)
     const [viewTab, setViewTab] = useState(false)

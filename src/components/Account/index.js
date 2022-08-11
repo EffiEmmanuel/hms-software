@@ -1,8 +1,12 @@
 import React from 'react'
 import './index.css'
 import logoutIcon from '../../assets/icons/logout-black.png'
+import useDocumentTitle from '../../hooks/useDocumentTitle'
 
 function Account() {
+
+    useDocumentTitle('Internistika | Account')
+
     return (
         <div className='main-content' id='main'>
             <div className='main-content-top'>
