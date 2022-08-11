@@ -1,3 +1,25 @@
+# Internistika Patient Management Web Application Frontend
+Hi, this was a project I built for a small hospital in Monaco.
+They formerly made use of a really old-ashioned desktop application and wanted something simple, modern, vibrant and efficient.
+I built both the UI Design (Figma) and the frontend (React.js).
+
+# Some Key Features
+<ol>
+  <li>Dynamic page title</li>
+  <li>Responsive Design</li>
+  <li>Multiple File Upload</li>
+</ol>
+
+Here is a preview of this awesome project!
+
+# Login
+![hms-login](https://user-images.githubusercontent.com/84421088/184195465-3119afc7-09d8-4163-b70c-df40b28f9ab4.png)
+
+
+# Doctor's Dashboard
+![hms-dashboard](https://user-images.githubusercontent.com/84421088/184195464-a494b41e-b174-4000-bf1a-604a9fe1e014.png)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
