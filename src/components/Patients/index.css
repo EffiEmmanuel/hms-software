@@ -1,0 +1,139 @@
+.navigation-tabs {
+    display: flex;
+    justify-content: space-between;
+}
+
+select {
+    background-color: rgba(34, 111, 154, .25) !important;
+    /* width: 470px !important; */
+    padding: 11px !important;
+    border-radius: 15px !important;
+    /* padding: 15px !important; */
+}
+
+option {
+    background-color: #fff;
+}
+
+.submit-button.register {
+    margin: 40px 0 20px;
+}
+
+.nav-link-icon.logout {
+    margin: 0 !important;
+}
+
+.search::placeholder {
+    color: #000 !important;
+}
+
+.search {
+    width: 90% !important;
+}
+
+.fg-row.patients {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form-group.patients {
+    display: flex;
+    justify-content: end;
+}
+
+.form-group.patients-center {
+    display: flex;
+    justify-content: center;
+}
+
+/* PATIENT */
+.patient, .appointment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px 0;
+    padding: 15px 20px;
+    background-color: rgba(34, 111, 154, .25);
+    border-radius: 20px;
+}
+
+.patients-list .patient:nth-child(even), .appointments-list .appointment:nth-child(even) {
+    background-color: #fff;
+}
+
+.patient p, .appointment p {margin: 0;}
+
+.patient hr, .appointment hr {
+    transform: rotate(90deg);
+    width: 30px;
+    /* height: 10px; */
+    color: rgba(0, 0, 0, .3);
+    background-color: #000;
+}
+
+.add-appointment {
+    border: none;
+    background-color: #2A5482;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.7rem;
+    position: fixed;
+    bottom: 30px;
+    left: 56%;
+    box-shadow: 3px 4px 7px 2px rgba(0, 0, 0, .3);
+}
+
+.new-appointment {
+    background-color: #fff;
+    border-radius: 20px;
+    width: 350px;
+    position: absolute;
+    top: 80px;
+    left: 45%;
+    padding: 30px;
+    display: none;
+}
+
+.add-appointment-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0, 0, 0, .3);
+    display: none;
+}
+
+.new-appointment input {
+    width: 100%;
+}
+
+.new-appointment input::placeholder {
+    color: #000;
+}
+
+@media (max-width: 1250px) {
+    .fg-row.patients {
+        flex-direction: column;
+    }
+
+    .form-group.patients-center, .form-group.patients {
+        justify-content: normal;
+    }
+
+
+}
+
+@media (max-width: 850px) {
+    .fg-row.patients .form-group:nth-child(2),
+    .fg-row.patients .form-group:nth-child(3) {
+        justify-content: normal;
+    }
+}
