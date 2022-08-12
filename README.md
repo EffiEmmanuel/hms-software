@@ -5,7 +5,8 @@ I built both the UI Design (Figma) and the frontend (React.js).
 
 # Some Key Features
 <ol>
-  <li>Dynamic page title</li>
+  <li>Print website report</li>
+  <li>Dynamic page titles</li>
   <li>Responsive Design</li>
   <li>Multiple File Upload</li>
 </ol>
