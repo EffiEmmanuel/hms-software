@@ -30,9 +30,8 @@ I added the functionality for a doctor to print the data of all the visits he ge
 ![hms-dashboard](https://user-images.githubusercontent.com/84421088/184195464-a494b41e-b174-4000-bf1a-604a9fe1e014.png)
 
 
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Other Useful Info
 
 ## Available Scripts
 
