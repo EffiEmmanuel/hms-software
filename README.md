@@ -13,6 +13,15 @@ I built both the UI Design (Figma) and the frontend (React.js).
 
 Here is a preview of this awesome project!
 
+# Print Functionality Preview
+I added the functionality for a doctor to print the data of all the visits he gets each day!
+### `Before print`
+![beforePrint](https://user-images.githubusercontent.com/84421088/184369028-179c5557-6326-4e6c-b0bf-70a0bc7a9bf2.png)
+
+### `Print Onclick`
+![onPrint](https://user-images.githubusercontent.com/84421088/184369041-b12a5eb6-f50e-41d3-837b-d2f9a5e83c2b.png)
+
+
 # Login
 ![hms-login](https://user-images.githubusercontent.com/84421088/184195465-3119afc7-09d8-4163-b70c-df40b28f9ab4.png)
 
