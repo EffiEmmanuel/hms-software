@@ -14,9 +14,6 @@ function Visits() {
   const [addVisitTab, setAddVisitTab] = useState(true)
   const [ViewVisitsTab, setViewVisitsTab] = useState(false)
 
-  // const [addVisitDisplay, setAddVisitDisplay] = useState('none')
-  // const [overlayDisplay, setOverlayDisplay] = useState('none')
-
   // ADD FILE BUTTONS
   const [rentgenFileName, setRentgenFileName] = useState('+')
   const [ctFileName, setCTFileName] = useState('+')
