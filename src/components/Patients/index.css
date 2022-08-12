@@ -62,7 +62,9 @@ option {
     background-color: #fff;
 }
 
-.patient p, .appointment p {margin: 0;}
+.patient p, .appointment p {
+    margin: 0;
+}
 
 .patient hr, .appointment hr {
     transform: rotate(90deg);
@@ -107,7 +109,7 @@ option {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color:rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, .3);
     display: none;
 }
 
@@ -132,6 +134,7 @@ option {
 }
 
 @media (max-width: 850px) {
+
     .fg-row.patients .form-group:nth-child(2),
     .fg-row.patients .form-group:nth-child(3) {
         justify-content: normal;

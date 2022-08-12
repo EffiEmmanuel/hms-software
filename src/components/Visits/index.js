@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import './index.css'
 import styled from 'styled-components'
 import logoutIcon from '../../assets/icons/logout-black.png'
-import deleteIcon from '../../assets/icons/delete.png'
-import doneIcon from '../../assets/icons/done.png'
-import plusIcon from '../../assets/icons/patients-icon2.png'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
+import ReactToPrint from 'react-to-print'
 
 
 function Visits() {
@@ -24,6 +22,8 @@ function Visits() {
   const [ctFileName, setCTFileName] = useState('+')
   const [echoFileName, setEchoFileName] = useState('+')
 
+  // Printing handler
+  let componentRef = useRef()
 
   return (
     <div className='main-content' id='main'>
@@ -151,6 +151,14 @@ function Visits() {
           </AddVisit>
 
           <ViewVisits className='view-patients' isViewVisits={ViewVisitsTab} >
+
+            {/* PRINT BUTTON */}
+            <ReactToPrint
+              trigger={() => <button className='btn btn-primary btn-dark px-5 py-3'>Print</button>}
+              content={() => componentRef}
+              documentTitle='Visits Report'
+              pageStyle='print'
+            />
             <form className='form-container'>
               <div className='fg-row patients'>
                 <div className='form-group'>
@@ -180,7 +188,7 @@ function Visits() {
               </div>
             </form>
 
-            <div className='patients-list'>
+            <div className='patients-list' ref={(el) => (componentRef = el)}>
               <div className='patient'>
                 <p>John</p>
                 <hr />
