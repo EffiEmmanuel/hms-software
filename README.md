@@ -13,6 +13,15 @@ I built both the UI Design (Figma) and the frontend (React.js).
 
 Here is a preview of this awesome project!
 
+# Print Functionality Preview
+I added the functionality for a doctor to print the data of all the visits he gets each day!
+### `Before print`
+![beforePrint](https://user-images.githubusercontent.com/84421088/184369028-179c5557-6326-4e6c-b0bf-70a0bc7a9bf2.png)
+
+### `Print Onclick`
+![onPrint](https://user-images.githubusercontent.com/84421088/184369041-b12a5eb6-f50e-41d3-837b-d2f9a5e83c2b.png)
+
+
 # Login
 ![hms-login](https://user-images.githubusercontent.com/84421088/184195465-3119afc7-09d8-4163-b70c-df40b28f9ab4.png)
 
@@ -21,9 +30,8 @@ Here is a preview of this awesome project!
 ![hms-dashboard](https://user-images.githubusercontent.com/84421088/184195464-a494b41e-b174-4000-bf1a-604a9fe1e014.png)
 
 
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Other Useful Info
 
 ## Available Scripts
 
@@ -61,33 +69,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
