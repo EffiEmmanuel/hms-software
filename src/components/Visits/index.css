@@ -103,3 +103,25 @@ textarea {
         justify-content: center;
     }
 }
+
+.print-logo {
+    display: none;
+    margin: 30px auto 110px;
+}
+
+.visit-ol-print {
+    list-style: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+@media print {
+    .print-logo {
+        display: block;
+    }
+
+    #visit-ol-print {
+        list-style: decimal !important;
+        padding: 20px !important;
+    }
+}

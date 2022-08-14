@@ -186,48 +186,45 @@ function Visits() {
             </form>
 
             <div className='patients-list' ref={(el) => (componentRef = el)}>
-              <div className='patient'>
-                <p>John</p>
-                <hr />
-                <p>Doe</p>
-                <hr />
-                <p>johndoe@gmail.com</p>
-              </div>
-              <div className='patient'>
-                <p>John</p>
-                <hr />
-                <p>Doe</p>
-                <hr />
-                <p>johndoe@gmail.com</p>
-              </div>
-              <div className='patient'>
-                <p>John</p>
-                <hr />
-                <p>Doe</p>
-                <hr />
-                <p>johndoe@gmail.com</p>
-              </div>
-              <div className='patient'>
-                <p>John</p>
-                <hr />
-                <p>Doe</p>
-                <hr />
-                <p>johndoe@gmail.com</p>
-              </div>
-              <div className='patient'>
-                <p>John</p>
-                <hr />
-                <p>Doe</p>
-                <hr />
-                <p>johndoe@gmail.com</p>
-              </div>
-              <div className='patient'>
-                <p>John</p>
-                <hr />
-                <p>Doe</p>
-                <hr />
-                <p>johndoe@gmail.com</p>
-              </div>
+              <img src={logoutIcon} alt='Logo' className='print-logo' />
+              <ol className='visit-ol-print' id='visit-ol-print'>
+                <li>
+                  <div className='patient'>
+                    <p>John</p>
+                    <hr />
+                    <p>Doe</p>
+                    <hr />
+                    <p>johndoe@gmail.com</p>
+                  </div>
+                </li>
+                <li>
+                  <div className='patient'>
+                    <p>John</p>
+                    <hr />
+                    <p>Doe</p>
+                    <hr />
+                    <p>johndoe@gmail.com</p>
+                  </div>
+                </li>
+                <li>
+                  <div className='patient'>
+                    <p>John</p>
+                    <hr />
+                    <p>Doe</p>
+                    <hr />
+                    <p>johndoe@gmail.com</p>
+                  </div>
+                </li>
+                <li>
+                  <div className='patient'>
+                    <p>John</p>
+                    <hr />
+                    <p>Doe</p>
+                    <hr />
+                    <p>johndoe@gmail.com</p>
+                  </div>
+                </li>
+              </ol>
             </div>
           </ViewVisits>
         </div>
