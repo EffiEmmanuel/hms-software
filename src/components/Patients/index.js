@@ -241,6 +241,11 @@ function Patients() {
                         </form>
 
                         <div className='patients-list'>
+                            <div className='table-title mt-5'>
+                                <p>FULLNAME</p>
+                                <p>DATE</p>
+                                <p>TIME</p>
+                            </div>
                             <div className='patient'>
                                 <p>John</p>
                                 <hr />
@@ -327,6 +332,12 @@ function Patients() {
 
 
                         <div className='appointments-list'>
+                            <div className='table-title mt-5'>
+                                <p>FIRSTNAME</p>
+                                <p>LASTNAME</p>
+                                <p>DATE</p>
+                                <p>TIME</p>
+                            </div>
                             <AppointmentCard firstname='John' lastname='Doe' date='26/07/2022' time='6:30PM' />
                             <AppointmentCard firstname='Jane' lastname='Doe' date='26/07/2022' time='6:50PM' />
                             <AppointmentCard firstname='Mia' lastname='Doe' date='26/07/2022' time='7:30PM' />

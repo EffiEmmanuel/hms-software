@@ -52,7 +52,7 @@ option {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 50px 0;
+    margin: 0 0 50px;
     padding: 15px 20px;
     background-color: rgba(34, 111, 154, .25);
     border-radius: 20px;

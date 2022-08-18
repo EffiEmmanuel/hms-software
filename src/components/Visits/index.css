@@ -115,6 +115,74 @@ textarea {
     padding: 0 !important;
 }
 
+.visit-details-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.visit-details {
+    background-color: white;
+    border-radius: 5px;
+    height: 500px;
+    width: 40%;
+    overflow-y: scroll;
+    padding: 40px;
+    position: relative;
+    z-index: 13;
+}
+
+.overlay.visits {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    /* display: none; */
+    z-index: 12;
+}
+
+.patients-list.visits {
+    position: relative;
+}
+
+.visit-details::-webkit-scrollbar {
+    background: #f8f8f8;
+    width: 8px;
+    border-radius: 20px;
+    /* padding: 15px; */
+}
+
+.visit-details::-webkit-scrollbar-thumb {
+    background-color: #a4a4a4;
+    border-radius: 20px;
+}
+
+.report-img {
+    /* width: 100%; */
+    /* height: 50%; */
+    object-fit: cover;
+    margin: 5px 0;
+}
+
+.visit-report {
+    margin-top: 40px;
+}
+
+.visit-report h6 {
+    font-weight: 700;
+}
+
+.visit-report .report-group {
+    margin: 60px 0 0;
+}
+
 @media print {
     .print-logo {
         display: block;
@@ -123,5 +191,9 @@ textarea {
     #visit-ol-print {
         list-style: decimal !important;
         padding: 20px !important;
+    }
+
+    .table-title.mt-5 {
+        padding: 0 40px !important;
     }
 }
