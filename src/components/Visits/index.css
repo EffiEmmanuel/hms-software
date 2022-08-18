@@ -1,199 +1,214 @@
 .navigation-tabs.visits {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .navigation-tabs.visits a:nth-child(1) {
-    margin-right: 100px;
+  margin-right: 100px;
 }
 
 .image-upload {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .image-upload input {
-    width: 20%;
+  width: 20%;
 }
 
 .image-upload .form-group {
-    align-self: flex-end !important;
+  align-self: flex-end !important;
 }
 
 .add-file {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-file.second label {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .add-file.last {
-    align-items: flex-end;
-    justify-content: flex-end;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .add-file-btn {
-    display: block;
-    background-color: rgba(34, 111, 154, .25);
-    width: 60px;
-    padding: 10px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: #fff;
-    border-radius: 15px;
-    cursor: pointer;
+  display: block;
+  background-color: rgba(34, 111, 154, 0.25);
+  width: 60px;
+  padding: 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #fff;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
 textarea {
-    background-color: rgba(34, 111, 154, .25) !important;
-    max-height: 55px;
-    width: 470px !important;
-    border-radius: 20px;
+  background-color: rgba(34, 111, 154, 0.25) !important;
+  max-height: 55px;
+  width: 470px !important;
+  border-radius: 20px;
 }
 
 @media (max-width: 850px) {
-    .image-upload {
-        flex-direction: row;
-        align-items: center;
-        justify-content: normal;
-    }
+  .image-upload {
+    flex-direction: row;
+    align-items: center;
+    justify-content: normal;
+  }
 
-    .add-file {
-        align-items: flex-start;
-        justify-content: flex-start;
-        /* margin-top: 50px; */
-    }
+  .add-file {
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* margin-top: 50px; */
+  }
 
-    .add-file.second {
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .add-file.last {
-        align-items: flex-end;
-        justify-content: flex-end;
-    }
+  .add-file.second {
+    align-items: center;
+    justify-content: center;
+  }
 
-    .add-file.add-file.second label {
-        margin-left: 0;
-    }
+  .add-file.last {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
 
-    textarea {
-        width: 380px !important;
-    }
+  .add-file.add-file.second label {
+    margin-left: 0;
+  }
 
-    .image-upload .form-group {
-        max-width: 125px;
-    }
+  textarea {
+    width: 380px !important;
+  }
+
+  .image-upload .form-group {
+    max-width: 125px;
+  }
 }
 
 @media (max-width: 567px) {
-    textarea {
-        width: 300px !important;
-    }
+  textarea {
+    width: 300px !important;
+  }
 
-    .add-file {
-        margin-right: 55px;
-        align-items: center;
-        justify-content: center;
-    }
+  .add-file {
+    margin-right: 55px;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .print-logo {
-    display: none;
-    margin: 30px auto 110px;
+  display: none;
+  margin: 30px auto 110px;
 }
 
 .visit-ol-print {
-    list-style: none;
-    margin: 0 !important;
-    padding: 0 !important;
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .visit-details-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: none;
 }
 
 .visit-details {
-    background-color: white;
-    border-radius: 5px;
-    height: 500px;
-    width: 40%;
-    overflow-y: scroll;
-    padding: 40px;
-    position: relative;
-    z-index: 13;
+  background-color: white;
+  border-radius: 5px;
+  height: 500px;
+  width: 500px;
+  overflow-y: scroll;
+  padding: 40px;
+  position: relative;
+  z-index: 13;
 }
 
 .overlay.visits {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    /* display: none; */
-    z-index: 12;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  /* display: none; */
+  z-index: 12;
 }
 
 .patients-list.visits {
-    position: relative;
+  position: relative;
 }
 
 .visit-details::-webkit-scrollbar {
-    background: #f8f8f8;
-    width: 8px;
-    border-radius: 20px;
-    /* padding: 15px; */
+  background: #f8f8f8;
+  width: 8px;
+  border-radius: 20px;
+  /* padding: 15px; */
 }
 
 .visit-details::-webkit-scrollbar-thumb {
-    background-color: #a4a4a4;
-    border-radius: 20px;
+  background-color: #a4a4a4;
+  border-radius: 20px;
 }
 
 .report-img {
-    /* width: 100%; */
-    /* height: 50%; */
-    object-fit: cover;
-    margin: 5px 0;
+  /* width: 100%; */
+  /* height: 50%; */
+  object-fit: cover;
+  margin: 5px 0;
 }
 
 .visit-report {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .visit-report h6 {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .visit-report .report-group {
-    margin: 60px 0 0;
+  margin: 60px 0 0;
+}
+
+.visit-report hr {
+  margin-top: 30px;
+  display: none;
 }
 
 @media print {
-    .print-logo {
-        display: block;
-    }
+  .print-logo {
+    display: block;
+  }
 
-    #visit-ol-print {
-        list-style: decimal !important;
-        padding: 20px !important;
-    }
+  #visit-ol-print {
+    list-style: decimal !important;
+    padding: 20px !important;
+  }
 
-    .table-title.mt-5 {
-        padding: 0 40px !important;
-    }
+  .table-title.mt-5 {
+    padding: 0 40px !important;
+  }
+
+  .visit-report hr {
+    display: block;
+  }
+}
+
+@media (max-width: 576px) {
+  .visit-details {
+    width: 100%;
+  }
 }

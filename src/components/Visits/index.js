@@ -216,6 +216,8 @@ function Visits() {
                     <p>John Doe</p>
                   </div>
 
+                  <hr />
+
                   <div className='report-group'>
                     <h6>RENTGEN:</h6>
                     <img src={rentgen2} alt='rentgen' className='report-img' />
@@ -225,12 +227,16 @@ function Visits() {
                     <img src={rentgen1} alt='rentgen' className='report-img' /> */}
                   </div>
 
+                  <hr />
+
                   <div className='report-group'>
                     <h6>ECHO:</h6>
                     <img src={rentgen2} alt='rentgen' className='report-img' />
                     <img src={rentgen2} alt='rentgen' className='report-img' />
                     <img src={rentgen2} alt='rentgen' className='report-img' />
                   </div>
+
+                  <hr />
 
                   <div className='report-group'>
                     <h6>INJECTIONS:</h6>
@@ -242,6 +248,8 @@ function Visits() {
                     </ol>
                   </div>
 
+                  <hr />
+
                   <div className='report-group'>
                     <h6>DRUGS:</h6>
                     <ol>
@@ -252,6 +260,8 @@ function Visits() {
                     </ol>
                   </div>
 
+                  <hr />
+
                   <div className='report-group'>
                     <h6>DIAGNOSIS:</h6>
                     <p>
@@ -261,6 +271,8 @@ function Visits() {
                       sollicitudin. Cras ac tempor arcu.
                     </p>
                   </div>
+
+                  <hr />
                 </div>
               </div>
 
