@@ -1,5 +1,5 @@
 # Internistika Patient Management Web Application Frontend
-Hi, this was a project I built for a small hospital in Monaco.
+Hi, this was a project I built for a small hospital in Kosovo.
 They formerly made use of a really old-ashioned desktop application and wanted something simple, modern, vibrant and efficient.
 I built both the UI Design (Figma) and the frontend (React.js).
 
