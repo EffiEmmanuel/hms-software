@@ -56,6 +56,10 @@ textarea {
   border-radius: 20px;
 }
 
+.visit-item {
+    cursor: pointer;
+}
+
 @media (max-width: 850px) {
   .image-upload {
     flex-direction: row;
@@ -107,6 +111,8 @@ textarea {
 .print-logo {
   display: none;
   margin: 30px auto 110px;
+  width: 100px;
+  object-fit: contain;
 }
 
 .visit-ol-print {
