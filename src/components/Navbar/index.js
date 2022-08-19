@@ -4,7 +4,7 @@ import accountIcon from '../../assets/icons/account-icon.png'
 import patientsIcon from '../../assets/icons/patients-icon2.png'
 import visitsIcon from '../../assets/icons/visits-icon.png'
 import logoutIcon from '../../assets/icons/logout-white.png'
-import NavItem from '../NavItem'
+import NavItem from './NavItem'
 import './index.css'
 
 function Navbar() {
