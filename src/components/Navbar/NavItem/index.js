@@ -1,14 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './index.css'
 
 function NavItem({ icon, text, link }) {
     return (
         <>
             <li className='nav-item'>
-                <a className='nav-link' href={link}>
+                <Link className='nav-link' to={link}>
                     <img src={icon} alt={text} className='nav-link-icon' />
                     <span className='nav-link-text' >{text}</span>
-                </a>
+                </Link>
             </li>
         </>
     )

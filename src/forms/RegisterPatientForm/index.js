@@ -1,47 +1,31 @@
 import { useFormik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import registerPatientSchema from "./validation";
-import handleFormSubmit from "../helpers/handleFormSubmit";
+import handleFormSubmit from "../../helpers/handleFormSubmit";
 
 function RegisterPatientForm() {
   const navigator = useNavigate();
+
   // The onsubmit handler
   const onSubmit = async (values, actions) => {
-    const response = await handleFormSubmit("admin/login", values);
+    const response = await handleFormSubmit(
+      "admin/login",
+      values,
+      "Login Successful",
+      "Redirecting you to your dashboard"
+    );
 
-    if (response.responseData) {
-      // Resetting the form
+    // Redirect
+    if (response) {
+      // Resetting form
       actions.resetForm();
-
-      // Calling a sweet alert message
-      Swal.fire({
-        title: "Login Successful",
-        text: "Redirecting you to your dashboard",
-        timer: 2000,
-        icon: "success",
-      });
-
-      // NAVIGATE TO DASHBOARD
+      // redirecting
       navigator("/patients");
     }
-
-    if (response.error) {
-      // Calling a sweet alert message
-      Swal.fire({
-        title: "An error occured",
-        text: "We were unable to process your request at this time. Please try again.",
-        timer: 2000,
-        icon: "error",
-      });
-
-      // DELETE THIS LINE LATER
-      navigator("/patients");
-    }
-    // console.log(error);
   };
 
+  //   Formik handlers
   const {
     values,
     errors,
@@ -272,6 +256,7 @@ function RegisterPatientForm() {
       <button
         type="submit"
         className="btn bg-success btn-dark submit-button register"
+        disabled={isSubmitting}
       >
         Register
       </button>

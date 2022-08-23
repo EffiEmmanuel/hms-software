@@ -1,14 +1,47 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './index.css'
 import logoutIcon from '../../assets/icons/logout-black.png'
 import patientsIcon from '../../assets/icons/total-patients.png'
 import doctorsIcon from '../../assets/icons/doctor.png'
 import visitsIcon from '../../assets/icons/schedule.png'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
+import { makeAPICall } from '../../helpers/apiCall'
+import StatCard from '../StatCard'
 
 function Dashboard() {
 
   useDocumentTitle('Internistika | Dashboard')
+
+  // const doctor = useContext(Doctor)
+
+  const [schedule, setSchedule] = useState(undefined)
+  const [patients, setPatients] = useState(0)
+  const [doctors, setDoctors] = useState(0)
+  const [totalVisits, setTotalVisits] = useState(0)
+
+  // Schedule
+  // useEffect(async () => {
+  //   const { data, error } = await makeAPICall.get('/admin/schedule')
+  //   data ? setSchedule(data) : console.log(error)
+  // })
+
+  // // Patients
+  // useEffect(async () => {
+  //   const { data, error } = await makeAPICall.get('/patients')
+  //   data ? setPatients(data) : console.log(error)
+  // })
+
+  // // Doctors
+  // useEffect(async () => {
+  //   const { data, error } = await makeAPICall.get('/doctors')
+  //   data ? setDoctors(data) : console.log(error)
+  // })
+
+  // // Total Visits
+  // useEffect(async () => {
+  //   const { data, error } = await makeAPICall.get('/totalVisits')
+  //   data ? setTotalVisits(data) : console.log(error)
+  // })
 
   return (
     <div className='main-content' id='main'>
@@ -45,36 +78,9 @@ function Dashboard() {
       </div>
 
       <div className='stats'>
-        <div className='stat-card'>
-          <div className='stat-icon-wrapper'>
-            <img className='icon stat-icon' src={patientsIcon} alt='Patients' />
-          </div>
-          <div className='stat-details'>
-            <h5>200</h5>
-            <p>Patients</p>
-          </div>
-        </div>
-
-        <div className='stat-card'>
-          <div className='stat-icon-wrapper'>
-            <img className='icon stat-icon' src={doctorsIcon} alt='Doctors' />
-          </div>
-          <div className='stat-details'>
-            <h5>3</h5>
-            <p>Doctors</p>
-          </div>
-        </div>
-
-        <div className='stat-card'>
-          <div className='stat-icon-wrapper'>
-            <img className='icon stat-icon' src={visitsIcon} alt='Visits' />
-          </div>
-          <div className='stat-details'>
-            <h5>200</h5>
-            <p>Total visits today</p>
-          </div>
-        </div>
-
+        <StatCard icon={patientsIcon} number={200} text='Patients' />
+        <StatCard icon={doctorsIcon} number={5} text='Doctors' />
+        <StatCard icon={visitsIcon} number={40} text='Total visits today' />
       </div>
     </div>
   )

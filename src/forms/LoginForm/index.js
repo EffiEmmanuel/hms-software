@@ -33,7 +33,7 @@ function LoginForm() {
         });
 
         // Redirect to dashboard
-        navigator('/dashboard')
+        navigator('/')
     })
     .catch(error => {
         console.log(error)
@@ -46,7 +46,7 @@ function LoginForm() {
         });
 
         // DELETE THIS LINE LATER
-        navigator('/dashboard')
+        navigator('/')
     })
   };
 
