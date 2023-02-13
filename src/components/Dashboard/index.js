@@ -95,6 +95,10 @@ function Dashboard() {
           src={logoutIcon}
           alt="Log out"
           className="nav-link-icon logout-icon"
+          onClick={() => {
+            localStorage.removeItem("internistikaLoginToken");
+            navigator("/login");
+          }}
         />
       </div>
 

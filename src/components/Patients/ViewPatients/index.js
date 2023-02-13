@@ -10,7 +10,7 @@ function ViewPatients({ isViewPatientsTab }) {
 
   return (
     <ViewPatientsTab className="view-patients" isView={isViewPatientsTab}>
-      <form className="form-container">
+      {/* <form className="form-container">
         <div className="fg-row patients">
           <div className="form-group">
             <input
@@ -37,7 +37,7 @@ function ViewPatients({ isViewPatientsTab }) {
             />
           </div>
         </div>
-      </form>
+      </form> */}
 
       <div className="patients-list">
         <div className="table-title mt-5">

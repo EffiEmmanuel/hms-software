@@ -34,7 +34,7 @@ function App() {
     await axios
       .post(
         // `${process.env.REACT_APP_BASE_URL}/admin`
-        "${process.env.REACT_APP_BASE_URL}/auth/local",
+        `${process.env.REACT_APP_BASE_URL}/auth/local`,
         JSON.stringify(value),
         {
           headers: {
@@ -55,9 +55,9 @@ function App() {
           icon: "success",
         });
 
+        navigator("/");
         localStorage.setItem("internistikaLoginToken", response.data.jwt);
         setDoctor(response.data.user);
-        navigator("/");
       })
       .catch((error) => {
         console.log(error);
@@ -104,7 +104,11 @@ function App() {
     console.log("HI HI");
     console.log("VALUESSSS:", value);
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/patients`, value)
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/patients`,
+        JSON.stringify({ data: value }),
+        { headers: { "Content-Type": "application/json" } }
+      )
       .then((res) => {
         console.log("UPDATE RESPONSE:", res.data);
         const newPatient = res.data;
@@ -115,7 +119,7 @@ function App() {
           timer: 2000,
           icon: "success",
         });
-        window.location.reload();
+        navigator("/");
       })
       .catch((err) => {
         console.log("ERROR:", err);
@@ -150,7 +154,7 @@ function App() {
       });
   }
 
-  async function fetchAppointments(values, actions) {
+  async function fetchAppointments() {
     await axios
       .get(`${process.env.REACT_APP_BASE_URL}/appointments`)
       .then((res) => {
@@ -170,24 +174,22 @@ function App() {
       });
   }
 
-  async function addApointment(values, actions) {
+  async function addAppointment(value) {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/appointments/`,
-        JSON.stringify(values),
+        `${process.env.REACT_APP_BASE_URL}/appointments`,
+        JSON.stringify({ data: value }),
         { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => {
         console.log("ADD APPOINTMENTS RESPONSE:", res.data);
-        const newAppointment = res.data.data;
-        setAppointments(appointments.push(newAppointment));
         Swal.fire({
           title: "Successful!",
           text: "Appointment details have been saved successfully.",
           timer: 2000,
           icon: "success",
         });
-        actions.resetForm();
+        navigator("/");
       })
       .catch((err) => {
         console.log("ERROR:", err);
@@ -197,7 +199,61 @@ function App() {
             err?.response?.data?.error?.message ||
             "An error occured, Please try again. If the problem persists, kindly logout and log back into your account, thank you!",
           timer: 2000,
+          icon: "error",
+        });
+      });
+  }
+  async function markAppointmentAsDone(id) {
+    await axios
+      .put(
+        `${process.env.REACT_APP_BASE_URL}/appointments/${id}`,
+        JSON.stringify({ data: { markedAsDone: true } }),
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        console.log("MARKED AS DONE APPOINTMENT RESPONSE:", res.data);
+        fetchAppointments();
+        Swal.fire({
+          title: "Successful!",
+          text: "Appointment has been marked as done.",
+          timer: 2000,
           icon: "success",
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+        Swal.fire({
+          title: "Error",
+          text:
+            err?.response?.data?.error?.message ||
+            "An error occured, Please try again. If the problem persists, kindly logout and log back into your account, thank you!",
+          timer: 2000,
+          icon: "error",
+        });
+      });
+  }
+  async function deleteAppointment(id) {
+    await axios
+      .delete(`${process.env.REACT_APP_BASE_URL}/appointments/${id}`)
+      .then((res) => {
+        console.log("DELETE APPOINTMENTS RESPONSE:", res.data);
+        fetchAppointments();
+        Swal.fire({
+          title: "Successful!",
+          text: "Appointment was deleted successfully.",
+          timer: 2000,
+          icon: "success",
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+        Swal.fire({
+          title: "Error",
+          text:
+            err?.response?.data?.error?.message ||
+            "An error occured, Please try again. If the problem persists, kindly logout and log back into your account, thank you!",
+          timer: 2000,
+          icon: "error",
         });
       });
   }
@@ -207,7 +263,7 @@ function App() {
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/visits`,
-        JSON.stringify(values),
+        JSON.stringify({ data: values }),
         { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => {
@@ -271,10 +327,12 @@ function App() {
       <UserContext.Provider
         value={{
           loginDoctor,
-          addApointment,
+          addAppointment,
           addVisit,
           updateDoctor,
           registerPatient,
+          markAppointmentAsDone,
+          deleteAppointment,
           doctor,
           patients,
           appointments,

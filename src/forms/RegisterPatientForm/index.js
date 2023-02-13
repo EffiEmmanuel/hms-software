@@ -122,7 +122,7 @@ function RegisterPatientForm() {
         <div className="form-group">
           <label htmlFor="date-of-birth">Date of birth</label>
           <input
-            type="text"
+            type="date"
             name="dateOfBirth"
             id="date-of-birth"
             className="form-control"

@@ -7,14 +7,14 @@ export const login = async (username, password) => {
   });
 
   if (data) {
-    sessionStorage.setItem("token", data);
-    return data
+    localStorage.setItem("internistikaLoginToken", data);
+    return data;
   } else {
-    return {}
+    return {};
   }
 };
 
 export const logout = () => {
-    sessionStorage.removeItem('internistikaLoginToken')
-    window.location.reload()
-}
+  localStorage.removeItem("internistikaLoginToken");
+  window.location.reload();
+};
