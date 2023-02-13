@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// @ts-nocheck
+import React, { useContext, useState } from "react";
 import "./index.css";
 import styled from "styled-components";
 import logoutIcon from "../../assets/icons/logout-black.png";
@@ -6,6 +7,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import RegisterPatient from "./RegisterPatient";
 import ViewPatients from "./ViewPatients";
 import Appointments from "./Appointments";
+import { UserContext } from "../../App";
 
 function Patients() {
   useDocumentTitle("Internistika | Patients");
@@ -15,11 +17,13 @@ function Patients() {
   const [viewTab, setViewTab] = useState(false);
   const [appointmentTab, setAppointmentTab] = useState(false);
 
+  const { doctor } = useContext(UserContext);
+
   return (
     <div className="main-content" id="main">
       <div className="main-content-top">
         <h3>
-          <span className="doctor-name hms-blue-text">Dr Doe.</span>
+          <span className="doctor-name hms-blue-text">{doctor?.username}.</span>
         </h3>
         <img src={logoutIcon} alt="Log out" className="nav-link-icon logout" />
       </div>

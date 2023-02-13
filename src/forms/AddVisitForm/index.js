@@ -1,5 +1,8 @@
+// @ts-nocheck
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../App";
 import addVisitSchema from "./validation";
 
 function AddVisitForm() {
@@ -8,7 +11,11 @@ function AddVisitForm() {
   const [ctFileName, setCTFileName] = useState("+");
   const [echoFileName, setEchoFileName] = useState("+");
 
-  const onSubmit = async (values, actions) => {};
+  const { patients, addVisit } = useContext(UserContext)
+
+  const onSubmit = async (values) => {
+    addVisit(values)
+  };
 
   const {
     values,
@@ -19,12 +26,14 @@ function AddVisitForm() {
     isSubmitting,
   } = useFormik({
     initialValues: {
-      patientName: "",
+      patient: "",
       rentgen: undefined,
-      ctScan: undefined,
+      ct: undefined,
       echo: undefined,
+      type: "",
       injections: "",
       drugs: "",
+      analysis: "",
       diagnosis: "",
     },
     validationSchema: addVisitSchema,
@@ -32,20 +41,20 @@ function AddVisitForm() {
   });
 
   return (
-    <form className="form-container">
+    <form className="form-container" onSubmit={(e) => {
+        e.preventDefault()
+        onSubmit(values)
+        }}>
       <div className="fg-row d-flex justify-content-between">
         <div className="form-group">
-          <label htmlFor="patient-name">Patient name</label>
-          <input
-            type="text"
-            name="patientName"
-            id="patient-name"
-            className="form-control"
-            value={values.patientName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.patientName && <p className="error">{errors.patientName}</p>}
+          <label htmlFor="patient-name">Patient</label> <br />
+          <select name="patient" id="patient" className="form-control" onChange={handleChange} value={values.patient}>
+            <option value="">--SELECT PATIENT--</option>
+            {patients?.map(patient => (
+                <option value={patient?.id}>{patient?.attributes?.firstName} {patient?.attributes?.lastName}</option>
+            ))}
+          </select>
+          {errors.patient && <p className="error">{errors.patient}</p>}
         </div>
 
         <div className="image-upload mt-0 fg-row form-group">
@@ -83,18 +92,18 @@ function AddVisitForm() {
             <input
               type="file"
               accept="image/*"
-              name="ctScan"
+              name="ct"
               id="ct-scan"
               className="form-control hidden"
               style={{ visibility: "hidden" }}
-              value={values.ctScan}
+              value={values.ct}
               onChange={(e) => {
                 setCTFileName("✔️");
                 handleChange(e);
               }}
               multiple
             />
-            {errors.ctScan && <p className="error">{errors.ctScan}</p>}
+            {errors.ct && <p className="error">{errors.ct}</p>}
           </div>
 
           <div className="form-group">
@@ -125,6 +134,18 @@ function AddVisitForm() {
 
       <div className="fg-row">
         <div className="form-group">
+          <label htmlFor="injections">Visit Type</label>
+          <input
+            type="text"
+            name="type"
+            id="type"
+            className="form-control"
+            value={values.type}
+            onChange={handleChange}
+          />
+          {errors.type && <p className="error">{errors.type}</p>}
+        </div>
+        <div className="form-group">
           <label htmlFor="injections">Injections</label>
           <input
             type="text"
@@ -136,7 +157,9 @@ function AddVisitForm() {
           />
           {errors.injections && <p className="error">{errors.injections}</p>}
         </div>
-        <div className="form-group">
+      </div>
+
+      <div className="form-group">
           <label htmlFor="drugs">Drugs</label>
           <input
             type="text"
@@ -148,6 +171,20 @@ function AddVisitForm() {
             onBlur={handleBlur}
           />
           {errors.drugs && <p className="error">{errors.drugs}</p>}
+        </div>
+
+      <div className="fg-row text-area">
+        <div className="form-group">
+          <label htmlFor="analysis">Analysis</label>
+          <textarea
+            className="form-control"
+            name="analysis"
+            id="analysis"
+            value={values.analysis}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          ></textarea>
+          {errors.analysis && <p className="error">{errors.analysis}</p>}
         </div>
       </div>
 
@@ -169,6 +206,7 @@ function AddVisitForm() {
       <button
         type="submit"
         className="btn bg-success btn-dark submit-button register"
+        onClick={() => onSubmit(values)}
       >
         Register
       </button>

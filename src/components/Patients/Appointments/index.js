@@ -1,10 +1,14 @@
-import React, {useState} from "react";
+// @ts-nocheck
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
+import { UserContext } from "../../../App";
 import AppointmentCard from "../../AppointmentCard";
 
 function Appointments({ isAppointmentsTab }) {
   const [newAppointmentDisplay, setNewAppointmentDisplay] = useState("none");
   const [overlayDisplay, setOverlayDisplay] = useState("none");
+
+  const { appointments } = useContext(UserContext);
 
   return (
     <AppointmentsTab
@@ -22,7 +26,7 @@ function Appointments({ isAppointmentsTab }) {
         }}
       ></div>
 
-      <form className="form-container">
+      {/* <form className="form-container">
         <div className="fg-row patients" id="searchbar">
           <div className="form-group">
             <input
@@ -58,7 +62,7 @@ function Appointments({ isAppointmentsTab }) {
             />
           </div>
         </div>
-      </form>
+      </form> */}
 
       <div className="appointments-list">
         <div className="table-title mt-5">
@@ -67,30 +71,21 @@ function Appointments({ isAppointmentsTab }) {
           <p>DATE</p>
           <p>TIME</p>
         </div>
-        <AppointmentCard
-          firstname="John"
-          lastname="Doe"
-          date="26/07/2022"
-          time="6:30PM"
-        />
-        <AppointmentCard
-          firstname="Jane"
-          lastname="Doe"
-          date="26/07/2022"
-          time="6:50PM"
-        />
-        <AppointmentCard
-          firstname="Mia"
-          lastname="Doe"
-          date="26/07/2022"
-          time="7:30PM"
-        />
-        <AppointmentCard
-          firstname="Felix"
-          lastname="Doe"
-          date="26/07/2022"
-          time="7:50PM"
-        />
+
+        {appointments?.map((appointment) => (
+          <AppointmentCard
+            firstname={appointment?.attributes?.fullName.split(" ")[0]}
+            lastname={appointment?.attributes?.fullName.split(" ")[1]}
+            date={appointment?.attributes?.date}
+            time={appointment?.attributes?.time}
+          />
+        ))}
+
+        {appointments.length === 0 && (
+          <h5 style={{ textAlign: "center", marginTop: "40px" }}>
+            There is nothing to show here for now...
+          </h5>
+        )}
 
         <button
           className="add-appointment"

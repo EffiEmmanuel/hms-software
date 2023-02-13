@@ -1,19 +1,19 @@
 import * as yup from "yup";
 
 const registerPatientSchema = yup.object().shape({
-  firstname: yup
+  firstName: yup
     .string()
     .min(2, "Must not be less than 2 characters")
     .max(50, "Maximum characters exceeded. 50/50")
     .required("This is a required field"),
 
-  middlename: yup
+  middleName: yup
     .string()
     .min(2, "Must not be less than 2 characters")
     .max(50, "Maximum characters exceeded. 50/50")
     .required("This is a required field"),
 
-  lastname: yup
+  lastName: yup
     .string()
     .min(2, "Must not be less than 2 characters")
     .max(50, "Maximum characters exceeded. 50/50")
@@ -41,7 +41,7 @@ const registerPatientSchema = yup.object().shape({
     .min(2, "Must not be less than 2 characters")
     .max(50, "Maximum characters exceeded. 50/50")
     .required("This is a required field"),
-    
+
   location: yup
     .string()
     .min(2, "Must not be less than 2 characters")
@@ -60,7 +60,8 @@ const registerPatientSchema = yup.object().shape({
     .max(250, "Maximum characters exceeded. 250/250")
     .required("This is a required field"),
 
-  email: yup.string()
+  email: yup
+    .string()
     .min(2, "Must not be less than 2 characters")
     .max(250, "Maximum characters exceeded. 250/250")
     .required("This is a required field"),

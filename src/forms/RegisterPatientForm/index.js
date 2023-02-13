@@ -1,28 +1,23 @@
+// @ts-nocheck
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import registerPatientSchema from "./validation";
 import handleFormSubmit from "../../helpers/handleFormSubmit";
+import { UserContext } from "../../App";
 
 function RegisterPatientForm() {
   const navigator = useNavigate();
 
-  // The onsubmit handler
-  const onSubmit = async (values, actions) => {
-    const response = await handleFormSubmit(
-      "admin/login",
-      values,
-      "Login Successful",
-      "Redirecting you to your dashboard"
-    );
+  const { registerPatient } = useContext(UserContext);
 
-    // Redirect
-    if (response) {
-      // Resetting form
-      actions.resetForm();
-      // redirecting
-      navigator("/patients");
-    }
+  // The onsubmit handler
+  const onSubmit = async (values) => {
+    const value = {
+      ...values,
+      visits: [],
+    };
+    registerPatient(value);
   };
 
   //   Formik handlers
@@ -35,9 +30,9 @@ function RegisterPatientForm() {
     isSubmitting,
   } = useFormik({
     initialValues: {
-      firstname: "",
-      middlename: "",
-      lastname: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
       gender: "",
       dateOfBirth: "",
       bloodGroup: "",
@@ -46,7 +41,7 @@ function RegisterPatientForm() {
       profession: "",
       location: "",
       address: "",
-      phone: "",
+      telephoneNumber: "",
       email: "",
     },
     validationSchema: registerPatientSchema,
@@ -57,46 +52,46 @@ function RegisterPatientForm() {
     <form className="form-container" onSubmit={handleSubmit}>
       <div className="fg-row">
         <div className="form-group">
-          <label htmlFor="firstname">Firstname</label>
+          <label htmlFor="firstName">First name</label>
           <input
             type="text"
-            name="firstname"
-            id="firstname"
+            name="firstName"
+            id="firstName"
             className="form-control"
-            value={values.firstname}
+            value={values.firstName}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.firstname}</p>}
+          {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="middlename">Middle name</label>
+          <label htmlFor="middleName">Middle name</label>
           <input
             type="text"
-            name="middlename"
-            id="middlename"
+            name="middleName"
+            id="middleName"
             className="form-control"
-            value={values.middlename}
+            value={values.middleName}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.middlename}</p>}
+          {errors.middleName && <p className="error">{errors.middleName}</p>}
         </div>
       </div>
 
       <div className="fg-row">
         <div className="form-group">
-          <label htmlFor="lastname">Lastname</label>
+          <label htmlFor="lastName">Last name</label>
           <input
             type="text"
-            name="lastname"
-            id="lastname"
+            name="lastName"
+            id="lastName"
             className="form-control"
-            value={values.lastname}
+            value={values.lastName}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.lastname}</p>}
+          {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="gender">Gender</label>
@@ -119,7 +114,7 @@ function RegisterPatientForm() {
               </option>
             </optgroup>
           </select>
-          {errors.firstname && <p className="error">{errors.gender}</p>}
+          {errors.gender && <p className="error">{errors.gender}</p>}
         </div>
       </div>
 
@@ -135,7 +130,7 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.dateOfBirth}</p>}
+          {errors.dateOfBirth && <p className="error">{errors.dateOfBirth}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="blood-group">Blood group</label>
@@ -147,7 +142,7 @@ function RegisterPatientForm() {
             value={values.bloodGroup}
             onChange={handleChange}
           />
-          {errors.firstname && <p className="error">{errors.bloodGroup}</p>}
+          {errors.bloodGroup && <p className="error">{errors.bloodGroup}</p>}
         </div>
       </div>
       <div className="fg-row">
@@ -162,7 +157,7 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.height}</p>}
+          {errors.height && <p className="error">{errors.height}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="weight">Weight (lb)</label>
@@ -175,7 +170,7 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.weight}</p>}
+          {errors.weight && <p className="error">{errors.weight}</p>}
         </div>
       </div>
 
@@ -191,7 +186,7 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.profession}</p>}
+          {errors.profession && <p className="error">{errors.profession}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="location">Location (city)</label>
@@ -204,7 +199,7 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.location}</p>}
+          {errors.location && <p className="error">{errors.location}</p>}
         </div>
       </div>
 
@@ -220,20 +215,22 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.address}</p>}
+          {errors.address && <p className="error">{errors.address}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="telephoneNumber">Telephone number</label>
           <input
             type="tel"
-            name="phone"
-            id="phone"
+            name="telephoneNumber"
+            id="telephoneNumber"
             className="form-control"
-            value={values.phone}
+            value={values.telephoneNumber}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.phone}</p>}
+          {errors.telephoneNumber && (
+            <p className="error">{errors.telephoneNumber}</p>
+          )}
         </div>
       </div>
 
@@ -249,7 +246,7 @@ function RegisterPatientForm() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstname && <p className="error">{errors.email}</p>}
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
       </div>
 
@@ -257,6 +254,7 @@ function RegisterPatientForm() {
         type="submit"
         className="btn bg-success btn-dark submit-button register"
         disabled={isSubmitting}
+        onClick={() => onSubmit(values)}
       >
         Register
       </button>

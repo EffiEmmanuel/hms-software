@@ -1,16 +1,23 @@
-import React, { useState, useRef } from "react";
-import '../index.css'
+// @ts-nocheck
+import React, { useState, useRef, useContext } from "react";
+import "../index.css";
 import styled from "styled-components";
 import internistikaLogo from "../../../assets/images/logo.png";
 import ReactToPrint from "react-to-print";
 import rentgen2 from "../../../assets/images/rentgen2.jpg";
+import { UserContext } from "../../../App";
 
 function ViewVisits({ isViewVisits }) {
   const [visitDetailDisplay, setVisitDetailDisplay] = useState("none");
   const [overlayDisplay, setOverlayDisplay] = useState("none");
 
+  const [currentItem, setCurrentItem] = useState();
+
   // Print handler
   let componentRef = useRef();
+
+  const { visits } = useContext(UserContext);
+  console.log("WETIN HAPPEN!!", visits);
 
   return (
     <ViewVisitsTab className="view-patients" isViewVisits={isViewVisits}>
@@ -24,7 +31,7 @@ function ViewVisits({ isViewVisits }) {
           setVisitDetailDisplay("none");
         }}
       ></div>
-      <form className="form-container">
+      {/* <form className="form-container">
         <div className="fg-row patients">
           <div className="form-group">
             <input
@@ -51,7 +58,7 @@ function ViewVisits({ isViewVisits }) {
             />
           </div>
         </div>
-      </form>
+      </form> */}
 
       <div
         className="visit-details-container"
@@ -77,27 +84,71 @@ function ViewVisits({ isViewVisits }) {
 
             <div className="report-group">
               <h6>PATIENT:</h6>
-              <p>John Doe</p>
+              <p>
+                {currentItem?.attributes?.patient?.data?.attributes?.firstName}{" "}
+                {currentItem?.attributes?.patient?.data?.attributes?.lastName}
+              </p>
+            </div>
+
+            <hr />
+
+            <div className="report-group">
+              <h6>VISIT TYPE:</h6>
+              <p>{currentItem?.attributes?.type}</p>
             </div>
 
             <hr />
 
             <div className="report-group">
               <h6>RENTGEN:</h6>
-              <img src={rentgen2} alt="rentgen" className="report-img" />
-              <img src={rentgen2} alt="rentgen" className="report-img" />
-              <img src={rentgen2} alt="rentgen" className="report-img" />
-              {/* <img src={rentgen3} alt='rentgen' className='report-img' />
-                    <img src={rentgen1} alt='rentgen' className='report-img' /> */}
+              {currentItem?.attributes?.rentgen?.data.map((image) => (
+                <img
+                  src={`${process.env.REACT_APP_URL}${image?.attributes?.url}`}
+                  alt="rentgen"
+                  className="report-img"
+                />
+              ))}
+              {currentItem?.attributes?.rentgen?.data.length === 0 && (
+                <p style={{ textAlign: "center", marginTop: "40px" }}>
+                  There were no Rentgen images for this visit...
+                </p>
+              )}
             </div>
 
             <hr />
 
             <div className="report-group">
               <h6>ECHO:</h6>
-              <img src={rentgen2} alt="rentgen" className="report-img" />
-              <img src={rentgen2} alt="rentgen" className="report-img" />
-              <img src={rentgen2} alt="rentgen" className="report-img" />
+              {currentItem?.attributes?.echo?.data.map((image) => (
+                <img
+                  src={`${process.env.REACT_APP_URL}${image?.attributes?.url}`}
+                  alt="echo"
+                  className="report-img"
+                />
+              ))}
+              {currentItem?.attributes?.ct?.data.length === 0 && (
+                <p style={{ textAlign: "center", marginTop: "40px" }}>
+                  There were no Echo images for this visit...
+                </p>
+              )}
+            </div>
+
+            <hr />
+
+            <div className="report-group">
+              <h6>CT:</h6>
+              {currentItem?.attributes?.ct?.data.map((image) => (
+                <img
+                  src={`${process.env.REACT_APP_URL}${image?.attributes?.url}`}
+                  alt="ct scan"
+                  className="report-img"
+                />
+              ))}
+              {currentItem?.attributes?.ct?.data.length === 0 && (
+                <p style={{ textAlign: "center", marginTop: "40px" }}>
+                  There were no CT Scans for this visit...
+                </p>
+              )}
             </div>
 
             <hr />
@@ -105,10 +156,7 @@ function ViewVisits({ isViewVisits }) {
             <div className="report-group">
               <h6>INJECTIONS:</h6>
               <ol>
-                <li>Injection 1</li>
-                <li>Injection 2</li>
-                <li>Injection 3</li>
-                <li>Injection 4</li>
+                <li>{currentItem?.attributes?.injections}</li>
               </ol>
             </div>
 
@@ -117,10 +165,7 @@ function ViewVisits({ isViewVisits }) {
             <div className="report-group">
               <h6>DRUGS:</h6>
               <ol>
-                <li>Drug 1</li>
-                <li>Drug 2</li>
-                <li>Drug 3</li>
-                <li>Drug 4</li>
+                <li>{currentItem?.attributes?.drugs}</li>
               </ol>
             </div>
 
@@ -128,14 +173,7 @@ function ViewVisits({ isViewVisits }) {
 
             <div className="report-group">
               <h6>DIAGNOSIS:</h6>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                faucibus, sapien nec luctus vehicula, augue dolor tristique
-                neque, non pellentesque est nibh vel sapien. Quisque mollis
-                turpis ipsum, ac iaculis purus mollis vitae. Fusce luctus lectus
-                quis auctor faucibus. Maecenas bibendum fringilla risus nec
-                sollicitudin. Cras ac tempor arcu.
-              </p>
+              <p>{currentItem?.attributes?.diagnosis}</p>
             </div>
 
             <hr />
@@ -146,73 +184,37 @@ function ViewVisits({ isViewVisits }) {
       <div className="patients-list visits">
         <div className="table-title mt-5">
           <p>FULLNAME</p>
-          <p>LASTNAME</p>
-          <p>TIME</p>
+          <p>EMAIL</p>
+          <p>TYPE</p>
         </div>
         <ol className="visit-ol-print" id="visit-ol-print">
-          <li className="visit-item">
-            <div
-              className="patient"
-              onClick={() => {
-                setOverlayDisplay("block");
-                setVisitDetailDisplay("flex");
-              }}
-            >
-              <p>John</p>
-              <hr />
-              <p>Doe</p>
-              <hr />
-              <p>johndoe@gmail.com</p>
-            </div>
-          </li>
+          {visits?.map((visit) => (
+            <li key={visit.id} className="visit-item">
+              <div
+                className="patient"
+                onClick={() => {
+                  setOverlayDisplay("block");
+                  setVisitDetailDisplay("flex");
+                  setCurrentItem(visit);
+                }}
+              >
+                <p>
+                  {visit?.attributes?.patient?.data?.attributes?.firstName}{" "}
+                  {visit?.attributes?.patient?.data?.attributes?.lastName}
+                </p>
+                <hr />
+                <p>{visit?.attributes?.patient?.data?.attributes?.email}</p>
+                <hr />
+                <p>{visit?.attributes?.type}</p>
+              </div>
+            </li>
+          ))}
 
-          <li className="visit-item">
-            <div
-              className="patient"
-              onClick={() => {
-                setOverlayDisplay("block");
-                setVisitDetailDisplay("flex");
-              }}
-            >
-              <p>John</p>
-              <hr />
-              <p>Doe</p>
-              <hr />
-              <p>johndoe@gmail.com</p>
-            </div>
-          </li>
-
-          <li className="visit-item">
-            <div
-              className="patient"
-              onClick={() => {
-                setOverlayDisplay("block");
-                setVisitDetailDisplay("flex");
-              }}
-            >
-              <p>John</p>
-              <hr />
-              <p>Doe</p>
-              <hr />
-              <p>johndoe@gmail.com</p>
-            </div>
-          </li>
-
-          <li className="visit-item">
-            <div
-              className="patient"
-              onClick={() => {
-                setOverlayDisplay("block");
-                setVisitDetailDisplay("flex");
-              }}
-            >
-              <p>John</p>
-              <hr />
-              <p>Doe</p>
-              <hr />
-              <p>johndoe@gmail.com</p>
-            </div>
-          </li>
+          {visits?.length === 0 && (
+            <h5 style={{ textAlign: "center", marginTop: "40px" }}>
+              There is nothing to show here for now...
+            </h5>
+          )}
         </ol>
       </div>
     </ViewVisitsTab>

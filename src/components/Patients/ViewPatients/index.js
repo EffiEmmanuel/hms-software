@@ -1,7 +1,13 @@
-import React from "react";
+// @ts-nocheck
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { UserContext } from "../../../App";
 
 function ViewPatients({ isViewPatientsTab }) {
+  const { patients } = useContext(UserContext);
+
+  console.log("PATIEEEENNNTTTTSSS:", patients);
+
   return (
     <ViewPatientsTab className="view-patients" isView={isViewPatientsTab}>
       <form className="form-container">
@@ -36,51 +42,20 @@ function ViewPatients({ isViewPatientsTab }) {
       <div className="patients-list">
         <div className="table-title mt-5">
           <p>FULLNAME</p>
-          <p>DATE</p>
-          <p>TIME</p>
+          <p>TELEPHONE NUMBER</p>
+          <p>EMAIL ADDRESS</p>
         </div>
-        <div className="patient">
-          <p>John</p>
-          <hr />
-          <p>Doe</p>
-          <hr />
-          <p>johndoe@gmail.com</p>
-        </div>
-        <div className="patient">
-          <p>John</p>
-          <hr />
-          <p>Doe</p>
-          <hr />
-          <p>johndoe@gmail.com</p>
-        </div>
-        <div className="patient">
-          <p>John</p>
-          <hr />
-          <p>Doe</p>
-          <hr />
-          <p>johndoe@gmail.com</p>
-        </div>
-        <div className="patient">
-          <p>John</p>
-          <hr />
-          <p>Doe</p>
-          <hr />
-          <p>johndoe@gmail.com</p>
-        </div>
-        <div className="patient">
-          <p>John</p>
-          <hr />
-          <p>Doe</p>
-          <hr />
-          <p>johndoe@gmail.com</p>
-        </div>
-        <div className="patient">
-          <p>John</p>
-          <hr />
-          <p>Doe</p>
-          <hr />
-          <p>johndoe@gmail.com</p>
-        </div>
+        {patients?.map((patient) => (
+          <div key={patient?.attributes?.id} className="patient">
+            <p>
+              {patient?.attributes?.firstName} {patient?.attributes?.lastName}
+            </p>
+            <hr />
+            <p>{patient?.attributes?.telephoneNumber}</p>
+            <hr />
+            <p>{patient?.attributes?.email}</p>
+          </div>
+        ))}
       </div>
     </ViewPatientsTab>
   );
