@@ -23,9 +23,9 @@ function AppointmentCard({ id, firstname, lastname, date, time }) {
         <button className="delete" onClick={() => deleteAppointment(id)}>
           <img src={deleteIcon} alt="Delete" className="nav-link-icon" />
         </button>
-        <button className="done" onClick={() => markAppointmentAsDone(id)}>
+        {/* <button className="done" onClick={() => markAppointmentAsDone(id)}>
           <img src={doneIcon} alt="Mark as done" className="nav-link-icon" />
-        </button>
+        </button> */}
       </div>
     </div>
   );

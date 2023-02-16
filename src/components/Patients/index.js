@@ -8,6 +8,7 @@ import RegisterPatient from "./RegisterPatient";
 import ViewPatients from "./ViewPatients";
 import Appointments from "./Appointments";
 import { UserContext } from "../../App";
+import MainContentTop from "../MainContentTop";
 
 function Patients() {
   useDocumentTitle("Internistika | Patients");
@@ -21,12 +22,7 @@ function Patients() {
 
   return (
     <div className="main-content" id="main">
-      <div className="main-content-top">
-        <h3>
-          <span className="doctor-name hms-blue-text">{doctor?.username}.</span>
-        </h3>
-        <img src={logoutIcon} alt="Log out" className="nav-link-icon logout" />
-      </div>
+      <MainContentTop />
 
       <div className="main account">
         <div className="navigation-tabs">

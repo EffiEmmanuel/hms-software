@@ -11,42 +11,90 @@ import StatCard from "../StatCard";
 import axios from "axios";
 import VisitCard from "../VisitCard";
 import { UserContext } from "../../App";
+import {
+  FaDoorClosed,
+  FaDoorOpen,
+  FaFileArchive,
+  FaGofore,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import MainContentTop from "../MainContentTop";
 
 function Dashboard() {
   useDocumentTitle("Internistika | Dashboard");
 
-  // const doctor = useContext(Doctor)
-  const [visits, setVisits] = useState([]);
-  const [patients, setPatients] = useState(0);
   const [doctors, setDoctors] = useState(0);
-  const [totalVisits, setTotalVisits] = useState(0);
+  const [visits, setVisits] = useState(0);
+  const [patients, setPatients] = useState(0);
+  const [visitsData, setVisitsData] = useState();
 
   const { doctor } = useContext(UserContext);
 
-  console.log("DOCTORRRRRRR:========", doctor);
-
-  //   Schedule
-  //   useEffect(async () => {
-  //     const { data, error } = await makeAPICall.get("/admin/schedule");
-  //     data ? setSchedule(data) : console.log(error);
-  //   });
+  console.log("VISITS:", visits);
+  console.log("PATIENTES:", patients);
 
   useEffect(() => {
-    async function getVisits() {
+    async function getDoctors() {
+      const token = localStorage.getItem("internistikaLoginToken");
       await axios
-        .get("http://localhost:1337/api/visits?populate=*")
+        .get(`${process.env.REACT_APP_BASE_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log("Doctors:", res.data);
+          setDoctors(res.data?.length);
+        })
+        .catch((err) => {
+          console.log("ERROR:", err);
+        });
+    }
+    async function getVisits() {
+      const token = localStorage.getItem("internistikaLoginToken");
+      await axios
+        .get(`${process.env.REACT_APP_BASE_URL}/visits?populate=*`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((res) => {
           //   console.log("VISITS:", res.data);
           console.log("VISITS:", res.data.data);
-          setVisits(res.data.data);
+          setVisits(res.data.data.length);
+        })
+        .catch((err) => {
+          console.log("ERROR:", err);
+        });
+    }
+    async function getVisitsData() {
+      const token = localStorage.getItem("internistikaLoginToken");
+      await axios
+        .get(
+          `${process.env.REACT_APP_BASE_URL}/visits?populate=*?pagination[start]=0&pagination[limit]=2&sort[0]=createdAt%3Adesc`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          //   console.log("VISITS:", res.data);
+          console.log("VISITS:", res.data.data);
+          setVisitsData(res.data.data);
         })
         .catch((err) => {
           console.log("ERROR:", err);
         });
     }
     async function getPatients() {
+      const token = localStorage.getItem("internistikaLoginToken");
       await axios
-        .get("http://localhost:1337/api/patients")
+        .get(`${process.env.REACT_APP_BASE_URL}/patients`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((res) => {
           console.log("Patients:", res.data.data);
           setPatients(res.data.data.length);
@@ -55,52 +103,15 @@ function Dashboard() {
           console.log("ERROR:", err);
         });
     }
-    async function getDoctors() {
-      await axios
-        .get("http://localhost:1337/api/users")
-        .then((res) => {
-          console.log("Doctors:", res.data);
-          setDoctors(res.data.length);
-        })
-        .catch((err) => {
-          console.log("ERROR:", err);
-        });
-    }
-
-    getVisits();
-    getPatients();
     getDoctors();
+    getVisits();
+    getVisitsData();
+    getPatients();
   }, []);
-
-  // // Doctors
-  // useEffect(async () => {
-  //   const { data, error } = await makeAPICall.get('/doctors')
-  //   data ? setDoctors(data) : console.log(error)
-  // })
-
-  // // Total Visits
-  // useEffect(async () => {
-  //   const { data, error } = await makeAPICall.get('/totalVisits')
-  //   data ? setTotalVisits(data) : console.log(error)
-  // })
 
   return (
     <div className="main-content" id="main">
-      <div className="main-content-top">
-        <h3>
-          Welcome back,{" "}
-          <span className="doctor-name hms-blue-text">{doctor?.username}.</span>
-        </h3>
-        <img
-          src={logoutIcon}
-          alt="Log out"
-          className="nav-link-icon logout-icon"
-          onClick={() => {
-            localStorage.removeItem("internistikaLoginToken");
-            navigator("/login");
-          }}
-        />
-      </div>
+      <MainContentTop />
 
       <div className="banner"></div>
 
@@ -116,7 +127,7 @@ function Dashboard() {
 
           <div className="table-content">
             <>
-              {visits?.map((item, index) => (
+              {visitsData?.map((item, index) => (
                 <div
                   key={index}
                   className={`table-item ${!index % 2 == 0 ? "plain" : ""}`}
@@ -137,11 +148,7 @@ function Dashboard() {
       <div className="stats">
         <StatCard icon={patientsIcon} number={patients} text="Patients" />
         <StatCard icon={doctorsIcon} number={doctors} text="Doctors" />
-        <StatCard
-          icon={visitsIcon}
-          number={visits.length}
-          text="Total visits"
-        />
+        <StatCard icon={visitsIcon} number={visits} text="Total visits" />
       </div>
     </div>
   );

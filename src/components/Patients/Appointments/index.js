@@ -61,17 +61,15 @@ function Appointments({ isAppointmentsTab }) {
         </div>
 
         {appointments?.map((appointment) => {
-          if (appointment?.attributes?.markedAsDone === false) {
-            return (
-              <AppointmentCard
-                firstname={appointment?.attributes?.fullName.split(" ")[0]}
-                lastname={appointment?.attributes?.fullName.split(" ")[1]}
-                date={appointment?.attributes?.date}
-                time={appointment?.attributes?.time}
-                id={appointment?.id}
-              />
-            );
-          }
+          return (
+            <AppointmentCard
+              firstname={appointment?.attributes?.fullName.split(" ")[0]}
+              lastname={appointment?.attributes?.fullName.split(" ")[1]}
+              date={appointment?.attributes?.date}
+              time={appointment?.attributes?.time}
+              id={appointment?.id}
+            />
+          );
         })}
 
         {appointments?.length === 0 && (

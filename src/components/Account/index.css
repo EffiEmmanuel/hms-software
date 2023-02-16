@@ -1,21 +1,30 @@
 .main.account {
-    margin-top: 80px;
+  margin-top: 80px;
 }
 
 .main.account h4 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .fg-row {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .account input {
-    height: 45px;
-    width: 470px;
+  height: 45px;
+  width: 470px;
 }
 
-.account .form-group, .account .submit-button {
-    margin-top: 30px;
+.account #username {
+  width: 470px !important;
+}
+
+.account .form-group,
+.account .submit-button {
+  margin-top: 30px;
+}
+
+.account .submit-button {
+  align-self: flex-start;
 }

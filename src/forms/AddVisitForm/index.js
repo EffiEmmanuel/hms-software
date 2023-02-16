@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../App";
 import addVisitSchema from "./validation";
+import "./index.css";
 
 function AddVisitForm() {
   // ADD FILE BUTTONS
@@ -11,10 +12,21 @@ function AddVisitForm() {
   const [ctFileName, setCTFileName] = useState("+");
   const [echoFileName, setEchoFileName] = useState("+");
 
-  const { patients, addVisit } = useContext(UserContext)
+  const { patients, addVisit } = useContext(UserContext);
 
   const onSubmit = async (values) => {
-    addVisit(values)
+    const value = {
+      analysis: values.analysis,
+      ct: 1,
+      echo: 2,
+      rentgen: 3,
+      diagnosis: values.diagnosis,
+      drugs: values.drugs,
+      injections: values.injections,
+      patient: values.patient,
+      type: values.type,
+    };
+    addVisit(value);
   };
 
   const {
@@ -27,9 +39,9 @@ function AddVisitForm() {
   } = useFormik({
     initialValues: {
       patient: "",
-      rentgen: undefined,
-      ct: undefined,
-      echo: undefined,
+      rentgen: "",
+      ct: "",
+      echo: "",
       type: "",
       injections: "",
       drugs: "",
@@ -41,17 +53,28 @@ function AddVisitForm() {
   });
 
   return (
-    <form className="form-container" onSubmit={(e) => {
-        e.preventDefault()
-        onSubmit(values)
-        }}>
+    <form
+      className="form-container"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(values);
+      }}
+    >
       <div className="fg-row d-flex justify-content-between">
         <div className="form-group">
           <label htmlFor="patient-name">Patient</label> <br />
-          <select name="patient" id="patient" className="form-control" onChange={handleChange} value={values.patient}>
+          <select
+            name="patient"
+            id="patient"
+            className="form-control"
+            onChange={handleChange}
+            value={values.patient}
+          >
             <option value="">--SELECT PATIENT--</option>
-            {patients?.map(patient => (
-                <option value={patient?.id}>{patient?.attributes?.firstName} {patient?.attributes?.lastName}</option>
+            {patients?.map((patient) => (
+              <option value={patient?.id}>
+                {patient?.attributes?.firstName} {patient?.attributes?.lastName}
+              </option>
             ))}
           </select>
           {errors.patient && <p className="error">{errors.patient}</p>}
@@ -77,7 +100,7 @@ function AddVisitForm() {
                 setRentgenFileName("✔️");
                 handleChange(e);
               }}
-              multiple
+              //   multiple
             />
             {errors.rentgen && <p className="error">{errors.rentgen}</p>}
           </div>
@@ -101,7 +124,7 @@ function AddVisitForm() {
                 setCTFileName("✔️");
                 handleChange(e);
               }}
-              multiple
+              //   multiple
             />
             {errors.ct && <p className="error">{errors.ct}</p>}
           </div>
@@ -125,7 +148,7 @@ function AddVisitForm() {
                 setEchoFileName("✔️");
                 handleChange(e);
               }}
-              multiple
+              //   multiple
             />
             {errors.echo && <p className="error">{errors.echo}</p>}
           </div>
@@ -160,18 +183,18 @@ function AddVisitForm() {
       </div>
 
       <div className="form-group">
-          <label htmlFor="drugs">Drugs</label>
-          <input
-            type="text"
-            name="drugs"
-            id="drugs"
-            className="form-control"
-            value={values.drugs}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.drugs && <p className="error">{errors.drugs}</p>}
-        </div>
+        <label htmlFor="drugs">Drugs</label>
+        <input
+          type="text"
+          name="drugs"
+          id="drugs"
+          className="form-control"
+          value={values.drugs}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.drugs && <p className="error">{errors.drugs}</p>}
+      </div>
 
       <div className="fg-row text-area">
         <div className="form-group">

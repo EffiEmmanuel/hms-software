@@ -4,6 +4,7 @@ import "./index.css";
 import logoutIcon from "../../assets/icons/logout-black.png";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { UserContext } from "../../App";
+import MainContentTop from "../MainContentTop";
 
 function Account() {
   useDocumentTitle("Internistika | Account");
@@ -13,12 +14,7 @@ function Account() {
 
   return (
     <div className="main-content" id="main">
-      <div className="main-content-top">
-        <h3>
-          <span className="doctor-name hms-blue-text">{doctor?.username}.</span>
-        </h3>
-        <img src={logoutIcon} alt="Log out" className="nav-link-icon logout" />
-      </div>
+      <MainContentTop />
 
       <main className="main account">
         <h4>Profile</h4>
@@ -30,17 +26,22 @@ function Account() {
             updateDoctor({ username, email });
           }}
         >
-          <div className="fg-row">
-            <div className="form-group">
-              <label htmlFor="firstname">Username</label>
-              <input
-                type="text"
-                name="username"
-                id="username"
-                defaultValue={doctor?.username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="form-control"
-              />
+          <div className="">
+            <div className="fg-row">
+              <div className="form-group">
+                <label htmlFor="firstname">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  defaultValue={doctor?.username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="form-control"
+                  style={{
+                    width: "470px",
+                  }}
+                />
+              </div>
             </div>
 
             <div className="fg-row">

@@ -8,6 +8,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import AddVisit from "./AddVisit";
 import ViewVisits from "./ViewVisits";
 import { UserContext } from "../../App";
+import MainContentTop from "../MainContentTop";
 
 function Visits() {
   useDocumentTitle("Internistika | Visits");
@@ -17,17 +18,11 @@ function Visits() {
   const [ViewVisitsTab, setViewVisitsTab] = useState(false);
 
   const { doctor } = useContext(UserContext);
+  const doctorParsed = JSON.parse(localStorage.getItem("doctor"));
 
   return (
     <div className="main-content" id="main">
-      <div className="main-content-top">
-        <h3>
-          <span className="doctor-name hms-blue-text">
-            {doctor?.attributes?.username}.
-          </span>
-        </h3>
-        <img src={logoutIcon} alt="Log out" className="nav-link-icon logout" />
-      </div>
+      <MainContentTop />
 
       <div className="main account">
         <div className="navigation-tabs visits">

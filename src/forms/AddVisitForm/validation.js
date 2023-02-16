@@ -7,8 +7,8 @@ const addVisitSchema = yup.object().shape({
     .test({
       message: "Uploaded",
       test: (file) => {
-        const isValid = file.size < 2000000;
-        return isValid;
+        // const isValid = file.size < 2000000;
+        return true;
       },
     })
     .required("* Required"),
@@ -17,8 +17,8 @@ const addVisitSchema = yup.object().shape({
     .test({
       message: "Uploaded",
       test: (file) => {
-        const isValid = file.size < 2000000;
-        return isValid;
+        // const isValid = file .size < 2000000;
+        return true;
       },
     })
     .required("* Required"),
@@ -27,8 +27,8 @@ const addVisitSchema = yup.object().shape({
     .test({
       message: "Uploaded",
       test: (file) => {
-        const isValid = file.size < 2000000;
-        return isValid;
+        // const isValid = file.size < 2000000;
+        return true;
       },
     })
     .required("* Required"),

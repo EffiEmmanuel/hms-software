@@ -1,24 +1,54 @@
 import React from "react";
-import homeIcon from "../../assets/icons/home-icon.png";
-import accountIcon from "../../assets/icons/account-icon.png";
-import patientsIcon from "../../assets/icons/patients-icon2.png";
-import visitsIcon from "../../assets/icons/visits-icon.png";
-import logoutIcon from "../../assets/icons/logout-white.png";
-import NavItem from "./NavItem";
+import internistikaLogo from "../../assets/images/logo.png";
 import "./index.css";
 import { Link } from "react-router-dom";
+import {
+  FaCalendar,
+  FaDoorOpen,
+  FaHome,
+  FaPlus,
+  FaSignOutAlt,
+  FaUsb,
+  FaUser,
+} from "react-icons/fa";
 
 function Navbar() {
   return (
     <nav className="app-navbar">
       <div className="overlay"></div>
       <div className="app-navbar-content">
-        <h2>Internistika</h2>
+        <h2 style={{ backgroundColor: "#fff" }}>
+          <img
+            src={internistikaLogo}
+            alt="Internistika"
+            style={{ maxWidth: "100px", objectFit: "contain" }}
+          />
+        </h2>
         <ul>
-          <NavItem icon={homeIcon} text="Home" link="/" />
-          <NavItem icon={accountIcon} text="Account" link="/account" />
-          <NavItem icon={patientsIcon} text="Patients" link="/patients" />
-          <NavItem icon={visitsIcon} text="Visits" link="/visits" />
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
+              <FaHome size={25} style={{ margin: "0 20px" }} />
+              <span className="nav-link-text">Home</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/account">
+              <FaUser size={25} style={{ margin: "0 20px" }} />
+              <span className="nav-link-text">Account</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/patients">
+              <FaPlus size={25} style={{ margin: "0 20px" }} />
+              <span className="nav-link-text">Patients</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/visits">
+              <FaCalendar size={25} style={{ margin: "0 20px" }} />
+              <span className="nav-link-text">Visits</span>
+            </Link>
+          </li>
           <li className="nav-item">
             <Link
               className="nav-link"
@@ -27,7 +57,7 @@ function Navbar() {
                 localStorage.removeItem("internistikaLoginToken");
               }}
             >
-              <img src={logoutIcon} alt="Logout" className="nav-link-icon" />
+              <FaSignOutAlt size={25} style={{ margin: "0 20px" }} />
               <span className="nav-link-text">Log out</span>
             </Link>
           </li>

@@ -57,6 +57,7 @@ function App() {
 
         navigator("/");
         localStorage.setItem("internistikaLoginToken", response.data.jwt);
+        localStorage.setItem("doctor", JSON.stringify(response.data.user));
         setDoctor(response.data.user);
       })
       .catch((error) => {
@@ -72,11 +73,18 @@ function App() {
   }
 
   async function updateDoctor(values) {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
       .put(
         `${process.env.REACT_APP_BASE_URL}/users/${doctor?.id}`,
         JSON.stringify(values),
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((res) => {
         console.log("UPDATE RESPONSE:", res.data);
@@ -103,23 +111,31 @@ function App() {
   async function registerPatient(value) {
     console.log("HI HI");
     console.log("VALUESSSS:", value);
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/patients`,
         JSON.stringify({ data: value }),
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((res) => {
         console.log("UPDATE RESPONSE:", res.data);
         const newPatient = res.data;
-        setPatients(patients.push(newPatient));
+        // setPatients(patients?.push(newPatient));
         Swal.fire({
           title: "Successful!",
           text: "Patient details have been saved successfully.",
           timer: 2000,
           icon: "success",
         });
-        navigator("/");
+        // navigator("/");
+        // actions.resetForm();
       })
       .catch((err) => {
         console.log("ERROR:", err);
@@ -135,8 +151,13 @@ function App() {
   }
 
   async function fetchPatients(values, actions) {
+    const token = localStorage.getItem("internistikaLoginToken");
     await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/patients/`)
+      .get(`${process.env.REACT_APP_BASE_URL}/patients/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         console.log("FETCH PATIENTS RESPONSE:", res.data.data);
         setPatients(res.data.data);
@@ -155,8 +176,12 @@ function App() {
   }
 
   async function fetchAppointments() {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/appointments`)
+      .get(`${process.env.REACT_APP_BASE_URL}/appointments`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         console.log("FETCH APPOINTMENTS RESPONSE:", res.data.data);
         setAppointments(res.data.data);
@@ -175,11 +200,18 @@ function App() {
   }
 
   async function addAppointment(value) {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/appointments`,
         JSON.stringify({ data: value }),
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((res) => {
         console.log("ADD APPOINTMENTS RESPONSE:", res.data);
@@ -203,12 +235,20 @@ function App() {
         });
       });
   }
+
   async function markAppointmentAsDone(id) {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
       .put(
         `${process.env.REACT_APP_BASE_URL}/appointments/${id}`,
         JSON.stringify({ data: { markedAsDone: true } }),
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((res) => {
         console.log("MARKED AS DONE APPOINTMENT RESPONSE:", res.data);
@@ -232,9 +272,14 @@ function App() {
         });
       });
   }
+
   async function deleteAppointment(id) {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
-      .delete(`${process.env.REACT_APP_BASE_URL}/appointments/${id}`)
+      .delete(`${process.env.REACT_APP_BASE_URL}/appointments/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         console.log("DELETE APPOINTMENTS RESPONSE:", res.data);
         fetchAppointments();
@@ -259,12 +304,19 @@ function App() {
   }
 
   async function addVisit(values) {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     console.log("VISIT VALUES:", values);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/visits`,
         JSON.stringify({ data: values }),
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((res) => {
         console.log("ADD VISIT RESPONSE:", res.data);
@@ -291,11 +343,15 @@ function App() {
   }
 
   async function fetchVisits() {
+    const token = localStorage.getItem("internistikaLoginToken");
+
     await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/visits?populate=*`)
+      .get(`${process.env.REACT_APP_BASE_URL}/visits?populate=*`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         //   console.log("VISITS:", res.data);
-        console.log("VISITS:", res.data.data);
+        console.log("VISITSSSSSSS:", res.data.data);
         setVisits(res.data.data);
       })
       .catch((err) => {
@@ -305,12 +361,14 @@ function App() {
 
   useEffect(() => {
     const isUserLoggedIn = localStorage.getItem("internistikaLoginToken");
+    const doctor = localStorage.getItem("doctor");
 
-    if (isUserLoggedIn) {
+    if (isUserLoggedIn && doctor) {
       navigator("/");
       fetchPatients();
       fetchAppointments();
       fetchVisits();
+      setDoctor(JSON.parse(doctor));
     } else {
       navigator("/login");
       Swal.fire({

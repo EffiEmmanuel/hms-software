@@ -1,42 +1,49 @@
 .form-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group input {
-    background-color: rgba(34, 111, 154, .25);
-    border: none;
-    border-radius: 15px;
-    padding: 15px 30px;
-    color: #fff;
+  background-color: transparent;
+  border: 0.5px soid #181818;
+  border-radius: 5px;
+  padding: 15px 30px;
+  color: #181818;
 }
 
 .form-group input::placeholder {
-    color: #FFF;
-    font-size: .9rem;
+  color: #c4c4c4;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
 
 .submit-button {
-    background-color: #fff;
-    font-weight: 600;
-    border: none;
-    padding: 15px 15px;
-    width: 130px;
-    border-radius: 13px;
-    align-self: center;
+  background-color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 15px 15px;
+  width: 130px;
+  /* border-radius: 13px; */
+  align-self: center;
 }
 
 .submit-button:hover {
-    border: 1px solid #fff;
-    color: #fff;
+  border: 1px solid #fff;
+  color: #fff;
 }
 
-#username, #password {
-    width: 100% !important;
+#username,
+#password {
+  width: 100% !important;
 }
 
 @media (max-width: 576px) {
-    #username, #password {
-        max-width: 100% !important;
-    }
+  #username,
+  #password {
+    max-width: 100% !important;
+  }
 }

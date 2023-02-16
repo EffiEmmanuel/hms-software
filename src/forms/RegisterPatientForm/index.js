@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import registerPatientSchema from "./validation";
 import handleFormSubmit from "../../helpers/handleFormSubmit";
 import { UserContext } from "../../App";
+import "./index.css";
 
 function RegisterPatientForm() {
   const navigator = useNavigate();
@@ -61,6 +62,7 @@ function RegisterPatientForm() {
             value={values.firstName}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. John"
           />
           {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
@@ -74,6 +76,7 @@ function RegisterPatientForm() {
             value={values.middleName}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. Snow"
           />
           {errors.middleName && <p className="error">{errors.middleName}</p>}
         </div>
@@ -90,10 +93,16 @@ function RegisterPatientForm() {
             value={values.lastName}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. Doe"
           />
           {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
-        <div className="form-group">
+        <div
+          className="form-group"
+          style={{
+            width: "",
+          }}
+        >
           <label htmlFor="gender">Gender</label>
           <select
             name="gender"
@@ -102,6 +111,11 @@ function RegisterPatientForm() {
             value={values.gender}
             onChange={handleChange}
             onBlur={handleBlur}
+            style={{
+              backgroundColor: "transparent",
+              borderRadius: "5px",
+              width: "100%",
+            }}
           >
             <optgroup>
               <option value="" disabled>
@@ -141,6 +155,7 @@ function RegisterPatientForm() {
             className="form-control"
             value={values.bloodGroup}
             onChange={handleChange}
+            placeholder="Eg. 0+"
           />
           {errors.bloodGroup && <p className="error">{errors.bloodGroup}</p>}
         </div>
@@ -156,6 +171,7 @@ function RegisterPatientForm() {
             value={values.height}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. 176"
           />
           {errors.height && <p className="error">{errors.height}</p>}
         </div>
@@ -169,6 +185,7 @@ function RegisterPatientForm() {
             value={values.weight}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. 138"
           />
           {errors.weight && <p className="error">{errors.weight}</p>}
         </div>
@@ -185,6 +202,7 @@ function RegisterPatientForm() {
             value={values.profession}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. Lawyer"
           />
           {errors.profession && <p className="error">{errors.profession}</p>}
         </div>
@@ -198,6 +216,7 @@ function RegisterPatientForm() {
             value={values.location}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. Vienna"
           />
           {errors.location && <p className="error">{errors.location}</p>}
         </div>
@@ -214,6 +233,7 @@ function RegisterPatientForm() {
             value={values.address}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. 12 ABC Estate, Vienna City"
           />
           {errors.address && <p className="error">{errors.address}</p>}
         </div>
@@ -227,6 +247,7 @@ function RegisterPatientForm() {
             value={values.telephoneNumber}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. +37745225699"
           />
           {errors.telephoneNumber && (
             <p className="error">{errors.telephoneNumber}</p>
@@ -245,6 +266,7 @@ function RegisterPatientForm() {
             value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Eg. abc@example.com"
           />
           {errors.email && <p className="error">{errors.email}</p>}
         </div>
