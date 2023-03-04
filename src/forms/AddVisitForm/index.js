@@ -72,7 +72,7 @@ function AddVisitForm() {
           >
             <option value="">--SELECT PATIENT--</option>
             {patients?.map((patient) => (
-              <option value={patient?.id}>
+              <option key={patient?.id} value={patient?.id}>
                 {patient?.attributes?.firstName} {patient?.attributes?.lastName}
               </option>
             ))}

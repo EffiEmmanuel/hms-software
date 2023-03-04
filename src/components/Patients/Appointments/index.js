@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useContext, useEffect, useState } from "react";
+import Select from "react-dropdown-select";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { UserContext } from "../../../App";
@@ -13,7 +14,21 @@ function Appointments({ isAppointmentsTab }) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
-  const { appointments, addAppointment } = useContext(UserContext);
+  const { appointments, addAppointment, patients } = useContext(UserContext);
+  const [patientDropdownValues, setPatientDropdownValues] = useState();
+
+  useEffect(() => {
+    //   Formatting patients to fit react-dropdown-select package
+    let values = [];
+    patients?.forEach((patient) => {
+      console.log("PATIENT:", patient);
+      values?.push({
+        id: `${patient.id}`,
+        name: `${patient.attributes.firstName} ${patient.attributes.lastName}`,
+      });
+    });
+    setPatientDropdownValues(values);
+  }, [patients]);
 
   async function handleSubmit(e) {
     e?.preventDefault();
@@ -28,10 +43,12 @@ function Appointments({ isAppointmentsTab }) {
     }
 
     const value = {
-      fullName,
+      fullName: fullName[0].name,
       date,
       time,
     };
+
+    console.log("FULLNAME:", value.fullName);
 
     addAppointment(value);
   }
@@ -100,14 +117,16 @@ function Appointments({ isAppointmentsTab }) {
           <h2>New Appointment</h2>
           <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
             <div className="form-group">
-              <input
-                type="text"
+              <Select
+                options={patientDropdownValues}
                 name="fullName"
-                placeholder="Fullname"
-                className="form-control"
+                id="fullName"
+                labelField="name"
+                valueField="id"
                 value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                id="new-appointment-fullname"
+                onChange={setFullName}
+                closeOnSelect={true}
+                required
               />
             </div>
             <div className="form-group">

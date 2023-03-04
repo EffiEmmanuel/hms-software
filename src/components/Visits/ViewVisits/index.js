@@ -188,27 +188,29 @@ function ViewVisits({ isViewVisits }) {
           <p>TYPE</p>
         </div>
         <ol className="visit-ol-print" id="visit-ol-print">
-          {visits?.map((visit) => (
-            <li key={visit.id} className="visit-item">
-              <div
-                className="patient"
-                onClick={() => {
-                  setOverlayDisplay("block");
-                  setVisitDetailDisplay("flex");
-                  setCurrentItem(visit);
-                }}
-              >
-                <p>
-                  {visit?.attributes?.patient?.data?.attributes?.firstName}{" "}
-                  {visit?.attributes?.patient?.data?.attributes?.lastName}
-                </p>
-                <hr />
-                <p>{visit?.attributes?.patient?.data?.attributes?.email}</p>
-                <hr />
-                <p>{visit?.attributes?.type}</p>
-              </div>
-            </li>
-          ))}
+          {visits
+            ? visits?.map((visit) => (
+                <li key={visit.id} className="visit-item">
+                  <div
+                    className="patient"
+                    onClick={() => {
+                      setOverlayDisplay("block");
+                      setVisitDetailDisplay("flex");
+                      setCurrentItem(visit);
+                    }}
+                  >
+                    <p>
+                      {visit?.attributes?.patient?.data?.attributes?.firstName}{" "}
+                      {visit?.attributes?.patient?.data?.attributes?.lastName}
+                    </p>
+                    <hr />
+                    <p>{visit?.attributes?.patient?.data?.attributes?.email}</p>
+                    <hr />
+                    <p>{visit?.attributes?.type}</p>
+                  </div>
+                </li>
+              ))
+            : null}
 
           {visits?.length === 0 && (
             <h5 style={{ textAlign: "center", marginTop: "40px" }}>

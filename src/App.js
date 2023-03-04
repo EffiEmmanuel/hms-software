@@ -319,9 +319,10 @@ function App() {
         }
       )
       .then((res) => {
-        console.log("ADD VISIT RESPONSE:", res.data);
-        const newVisit = res.data.data;
-        setVisits(visits.push(newVisit));
+        console.log("ADD VISIT RESPONSE:", res.data.data);
+        // const newVisit = res.data.data;
+        // setVisits(visits.push({ newVisit }));
+        navigator("/");
         Swal.fire({
           title: "Successful!",
           text: "Visit details have been saved successfully.",
