@@ -392,6 +392,7 @@ function App() {
           registerPatient,
           markAppointmentAsDone,
           deleteAppointment,
+          setPatients,
           doctor,
           patients,
           appointments,
