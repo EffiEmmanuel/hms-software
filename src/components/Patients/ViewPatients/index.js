@@ -1,9 +1,11 @@
 // @ts-nocheck
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../../../App";
 import { paginate } from "../../../helpers/paginate";
 import Pagination from "../../Pagination";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function ViewPatients({ isViewPatientsTab }) {
   const { patients, setPatients } = useContext(UserContext);
@@ -35,16 +37,52 @@ function ViewPatients({ isViewPatientsTab }) {
     pageSize
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPreviousDisabled, setIsPreviousDisabled] = useState(false);
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
+
+  const [fetchedPatients, setFetchedPatients] = useState();
+  const [page, setPage] = useState(1);
+
+  async function getPatients(page) {
+    setIsLoading(true);
+    await axios
+      .get(
+        `http://localhost:8080/api/v1/doctors/patients/get-patients?page=${page}&limit=${2}`
+      )
+      .then((res) => {
+        console.log("FETCH PATIENTS RESPONSE:", res.data);
+        setFetchedPatients(res.data.patients);
+        if (!(page < 1) && res.data?.patients?.length == 0) {
+          setIsNextDisabled(true);
+          setPage(page - 1);
+        } else {
+          setFetchedPatients(res.data.patients);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+
+  useEffect(() => {
+    if (isViewPatientsTab) getPatients(page);
+  }, [page, isViewPatientsTab]);
+
   return (
     <ViewPatientsTab className="view-patients" isView={isViewPatientsTab}>
-      <form className="form-container">
-        <div className="fg-row patients">
-          <div className="form-group">
+      <form className="">
+        <div className="flex lg:justify-between items-center lg:flex-row flex-col justify-center w-full">
+          <div className="w-full flex relative">
             <input
+              className="w-full lg:max-w-xs h-10 text-xs border-gray-300 bg-cosretBlue-300 px-8 text-black mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+              id="search"
               type="text"
               name="search"
-              className="form-control search"
-              placeholder="🔍 Firstname  |"
+              placeholder="🔍 Search By Firstname  |"
+              //   value={searcg}
               onChange={(e) => {
                 console.log("VAL:", e.target.value);
                 if (!(e.target.value === "")) {
@@ -52,11 +90,9 @@ function ViewPatients({ isViewPatientsTab }) {
                   setIsSearchingByTelephoneNumber(false);
                   setIsSearchingByEmail(false);
                   console.log("hI");
-                  const newPatientList = patients?.filter((patient) => {
+                  const newPatientList = fetchedPatients?.filter((patient) => {
                     console.log("PATIENTINO:", patient);
-                    return patient?.attributes?.firstName.includes(
-                      e.target.value
-                    );
+                    return patient?.firstName.includes(e.target.value);
                   });
                   setPatientsFirstName(newPatientList);
                   console.log("PFN:", patientsFirstName);
@@ -66,23 +102,23 @@ function ViewPatients({ isViewPatientsTab }) {
               }}
             />
           </div>
-          <div className="form-group patients-center">
+          <div className="w-full flex relative">
             <input
+              className="w-full lg:max-w-xs h-10 text-xs border-gray-300 bg-cosretBlue-300 px-8 text-black mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+              id="search"
               type="text"
               name="search"
-              className="form-control search"
-              placeholder="🔍 Tel  |"
+              placeholder="🔍 Search By Tel  |"
               onChange={(e) => {
                 console.log("VAL:", e.target.value);
                 if (!(e.target.value === "")) {
                   setIsSearchingByTelephoneNumber(true);
                   setIsSearchingByEmail(false);
                   setIsSearchingByFirstName(false);
-                  const newPatientList = patients?.filter((patient) => {
-                    return patient?.attributes?.telephoneNumber.includes(
-                      e.target.value
-                    );
+                  const newPatientList = fetchedPatients?.filter((patient) => {
+                    return patient?.telephoneNumber.includes(e.target.value);
                   });
+                  console.log("NPTEL:", newPatientList);
                   setPatientsTel(newPatientList);
                 } else {
                   setIsSearchingByTelephoneNumber(false);
@@ -90,20 +126,21 @@ function ViewPatients({ isViewPatientsTab }) {
               }}
             />
           </div>
-          <div className="form-group patients">
+          <div className="w-full flex relative">
             <input
+              className="w-full lg:max-w-xs h-10 text-xs border-gray-300 bg-cosretBlue-300 px-8 text-black mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+              id="search"
               type="text"
               name="search"
-              className="form-control search"
-              placeholder="🔍 Email  |"
+              placeholder="🔍 Search By Email  |"
               onChange={(e) => {
                 console.log("VAL:", e.target.value);
                 if (!(e.target.value === "")) {
                   setIsSearchingByEmail(true);
                   setIsSearchingByTelephoneNumber(false);
                   setIsSearchingByFirstName(false);
-                  const newPatientList = patients?.filter((patient) => {
-                    return patient?.attributes?.email.includes(e.target.value);
+                  const newPatientList = fetchedPatients?.filter((patient) => {
+                    return patient?.email.includes(e.target.value);
                   });
                   setPatientsEmail(newPatientList);
                 } else {
@@ -115,8 +152,8 @@ function ViewPatients({ isViewPatientsTab }) {
         </div>
       </form>
 
-      <div className="patients-list">
-        <div className="table-title mt-5">
+      <div className="">
+        <div className="table-title my-5">
           <p>FULLNAME</p>
           <p>TELEPHONE NUMBER</p>
           <p>EMAIL ADDRESS</p>
@@ -126,67 +163,120 @@ function ViewPatients({ isViewPatientsTab }) {
         {!isSearchingByFirstName &&
           !isSearchingByTelephoneNumber &&
           !isSearchingByEmail &&
-          paginatedPatients?.map((patient) => (
-            <div key={patient?.attributes?.id} className="patient">
-              <p>
-                {patient?.attributes?.firstName} {patient?.attributes?.lastName}
+          fetchedPatients?.map((patient) => (
+            <div
+              key={patient?._id}
+              className="flex justify-between my-10 pb-5 border-b-[0.3px] border-b-gray-200 border-dashed"
+            >
+              <p className="text-xs max-w-md">
+                {patient?.firstName} {patient?.lastName}
               </p>
-              <hr />
-              <p>{patient?.attributes?.telephoneNumber}</p>
-              <hr />
-              <p>{patient?.attributes?.email}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.telephoneNumber}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.email}</p>
             </div>
           ))}
 
         {/* Search results for patients by firstname */}
         {isSearchingByFirstName &&
-          paginatedPatientsByFirstName?.map((patient) => (
-            <div key={patient?.attributes?.id} className="patient">
-              <p>
-                {patient?.attributes?.firstName} {patient?.attributes?.lastName}
+          patientsFirstName?.map((patient) => (
+            <div
+              key={patient?._id}
+              className="flex justify-between my-10 pb-5 border-b-[0.3px] border-b-gray-200 border-dashed"
+            >
+              <p className="text-xs max-w-md">
+                {patient?.firstName} {patient?.lastName}
               </p>
-              <hr />
-              <p>{patient?.attributes?.telephoneNumber}</p>
-              <hr />
-              <p>{patient?.attributes?.email}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.telephoneNumber}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.email}</p>
             </div>
           ))}
+        {isSearchingByFirstName && patientsFirstName?.length == 0 && (
+          <div className="flex justify-center my-10">
+            <p className="text-xs max-w-md">No results</p>
+          </div>
+        )}
 
         {/* Search results for patients by telephone number */}
         {isSearchingByTelephoneNumber &&
-          paginatedPatientsByTel?.map((patient) => (
-            <div key={patient?.attributes?.id} className="patient">
-              <p>
-                {patient?.attributes?.firstName} {patient?.attributes?.lastName}
+          patientsTel?.map((patient) => (
+            <div
+              key={patient?._id}
+              className="flex justify-between my-10 pb-5 border-b-[0.3px] border-b-gray-200 border-dashed"
+            >
+              <p className="text-xs max-w-md">
+                {patient?.firstName} {patient?.lastName}
               </p>
-              <hr />
-              <p>{patient?.attributes?.telephoneNumber}</p>
-              <hr />
-              <p>{patient?.attributes?.email}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.telephoneNumber}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.email}</p>
             </div>
           ))}
+        {isSearchingByTelephoneNumber && patientsTel?.length == 0 && (
+          <div className="flex justify-center my-10">
+            <p className="text-xs max-w-md">No results</p>
+          </div>
+        )}
 
         {/* Search results for patients by email */}
         {isSearchingByEmail &&
-          paginatedPatientsByEmail?.map((patient) => (
-            <div key={patient?.attributes?.id} className="patient">
-              <p>
-                {patient?.attributes?.firstName} {patient?.attributes?.lastName}
+          patientsEmail?.map((patient) => (
+            <div
+              key={patient?._id}
+              className="flex justify-between my-10 pb-5 border-b-[0.3px] border-b-gray-200 border-dashed"
+            >
+              <p className="text-xs max-w-md">
+                {patient?.firstName} {patient?.lastName}
               </p>
-              <hr />
-              <p>{patient?.attributes?.telephoneNumber}</p>
-              <hr />
-              <p>{patient?.attributes?.email}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.telephoneNumber}</p>
+              {/* <hr /> */}
+              <p className="text-xs max-w-md">{patient?.email}</p>
             </div>
           ))}
 
-        <div>
-          <Pagination
-            items={patients?.length}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
+        {isSearchingByEmail && patientsEmail?.length == 0 && (
+          <div className="flex justify-center my-10">
+            <p className="text-xs max-w-md">No results</p>
+          </div>
+        )}
+
+        <div className="flex justify-center gap-x-5 text-sm">
+          <button
+            disabled={isPreviousDisabled}
+            className="h-10 w-32 bg-[#181818] text-white rounded-lg disabled:bg-gray-300"
+            onClick={() => {
+              setIsNextDisabled(false);
+              const previousPage = page - 1;
+              if (!(previousPage < 1)) {
+                setPage(page - 1);
+              } else if (page >= 1) {
+                setIsPreviousDisabled(true);
+              } else {
+                setIsPreviousDisabled(true);
+              }
+            }}
+          >
+            Previous Page
+          </button>
+          <button
+            disabled={isNextDisabled}
+            className="h-10 w-32 bg-[#1e64af] text-white rounded-lg disabled:bg-gray-300"
+            onClick={() => {
+              if (isPreviousDisabled) setIsPreviousDisabled(false);
+              setPage(page + 1);
+              if (!fetchedPatients || fetchedPatients?.length == 0) {
+                setIsNextDisabled(true);
+                setPage(page - 1);
+              }
+            }}
+          >
+            Next Page
+          </button>
         </div>
       </div>
     </ViewPatientsTab>

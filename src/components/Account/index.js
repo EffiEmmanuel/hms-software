@@ -5,69 +5,105 @@ import logoutIcon from "../../assets/icons/logout-black.png";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { UserContext } from "../../App";
 import MainContentTop from "../MainContentTop";
+import Navbar from "../Navbar";
 
 function Account() {
   useDocumentTitle("Internistika | Account");
-  const [email, setEmail] = useState();
   const [username, setUsername] = useState();
   const { doctor, updateDoctor } = useContext(UserContext);
 
+  const [firstName, setFirstName] = useState(doctor?.firstName);
+  const [lastName, setLastName] = useState(doctor?.lastName);
+  const [email, setEmail] = useState(doctor?.email);
+  const [isNavBarVisible, setIsNavBarVisible] = useState(false);
+
   return (
-    <div className="main-content" id="main">
-      <MainContentTop />
+    <>
+      <Navbar isNavBarVisible={isNavBarVisible} page="account" />
 
-      <main className="main account">
-        <h4>Profile</h4>
+      <div
+        className="pt-[30px] pr-[35px] pb-[15px] lg:pl-[21%] px-10 w-full"
+        id="main"
+      >
+        <MainContentTop
+          setIsNavBarVisible={setIsNavBarVisible}
+          isNavBarVisible={isNavBarVisible}
+        />
 
-        <form
-          className="form-container"
-          onSubmit={(e) => {
-            e.preventDefault();
-            updateDoctor({ username, email });
-          }}
-        >
-          <div className="">
-            <div className="fg-row">
-              <div className="form-group">
-                <label htmlFor="firstname">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  defaultValue={doctor?.username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="form-control"
-                  style={{
-                    width: "470px",
-                  }}
-                />
-              </div>
-            </div>
+        <main className="main account">
+          <h4 className="text-xl font-semibold">My Account</h4>
 
-            <div className="fg-row">
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  defaultValue={doctor?.email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="form-control"
-                />
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="btn bg-success btn-dark submit-button"
+          <form
+            className="form-container mt-7"
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateDoctor({ firstName, lastName, email });
+            }}
           >
-            Save
-          </button>
-        </form>
-      </main>
-    </div>
+            <div className="w-full relative my-2">
+              <label
+                htmlFor="firstName"
+                className="text-xs absolute text-gray-500 left-0 text-solyntaYellow"
+              >
+                First Name
+              </label>
+              <input
+                className="lg:max-w-lg w-full h-12 text-xs border-gray-300 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+                id="firstName"
+                type="text"
+                name="firstname"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+              />
+            </div>
+
+            <div className="w-full relative my-2">
+              <label
+                htmlFor="lastName"
+                className="text-xs absolute text-gray-500 left-0 text-solyntaYellow"
+              >
+                Last Name
+              </label>
+              <input
+                className="lg:max-w-lg w-full h-12 text-xs border-gray-300 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+                id="lastName"
+                type="text"
+                name="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+              />
+            </div>
+
+            <div className="w-full relative my-2">
+              <label
+                htmlFor="email"
+                className="text-xs absolute text-gray-500 left-0 text-solyntaYellow"
+              >
+                Email Address
+              </label>
+              <input
+                className="lg:max-w-lg w-full h-12 text-xs border-gray-300 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+                id="email"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email Address"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="bg-[#1e64af] text-white text-xs h-10 w-32 rounded-lg mt-3"
+            >
+              Save
+            </button>
+          </form>
+        </main>
+      </div>
+    </>
   );
 }
 

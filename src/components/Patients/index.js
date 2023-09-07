@@ -9,6 +9,7 @@ import ViewPatients from "./ViewPatients";
 import Appointments from "./Appointments";
 import { UserContext } from "../../App";
 import MainContentTop from "../MainContentTop";
+import Navbar from "../Navbar";
 
 function Patients() {
   useDocumentTitle("Internistika | Patients");
@@ -18,61 +19,85 @@ function Patients() {
   const [viewTab, setViewTab] = useState(false);
   const [appointmentTab, setAppointmentTab] = useState(false);
 
+  const [isNavBarVisible, setIsNavBarVisible] = useState(false);
+
   const { doctor } = useContext(UserContext);
 
   return (
-    <div className="main-content" id="main">
-      <MainContentTop />
+    <>
+      <Navbar isNavBarVisible={isNavBarVisible} page="patients" />
 
-      <div className="main account">
-        <div className="navigation-tabs">
-          <NavigationTab
-            className={`${currentTab && registerTab ? "current-tab" : ""}`}
-            isRegister={registerTab}
-            onClick={() => {
-              setViewTab(false);
-              setAppointmentTab(false);
-              setRegisterTab(true);
-              setCurrentTab(true);
-            }}
-          >
-            Register Patients
-          </NavigationTab>
+      <div
+        className="pt-[30px] pb-[15px] lg:pl-[23%] px-[1.5rem] w-full"
+        id="main"
+      >
+        <MainContentTop
+          setIsNavBarVisible={setIsNavBarVisible}
+          isNavBarVisible={isNavBarVisible}
+        />
 
-          <NavigationTab
-            className={`${currentTab && viewTab ? "current-tab" : ""}`}
-            isView={viewTab}
-            onClick={() => {
-              setViewTab(true);
-              setAppointmentTab(false);
-              setRegisterTab(false);
-              setCurrentTab(true);
-            }}
-          >
-            View Patients
-          </NavigationTab>
+        <div className="main account">
+          <div className="navigation-tabs border-b-[.3px] border-b-gray-200 pb-5">
+            <p
+              //   className={`${currentTab && registerTab ? "current-tab" : ""}`}
+              className={`text-xs h-10 ${
+                currentTab && registerTab
+                  ? "border-[.4px] text-[#1e64af] border-dashed border-[#1e64af]"
+                  : ""
+              }  px-3 flex justify-center items-center rounded-lg cursor-pointer`}
+              onClick={() => {
+                setViewTab(false);
+                setAppointmentTab(false);
+                setRegisterTab(true);
+                setCurrentTab(true);
+              }}
+            >
+              Register Patients
+            </p>
 
-          <NavigationTab
-            className={`${currentTab && appointmentTab ? "current-tab" : ""}`}
-            isAppointment={appointmentTab}
-            onClick={() => {
-              setViewTab(false);
-              setAppointmentTab(true);
-              setRegisterTab(false);
-              setCurrentTab(true);
-            }}
-          >
-            Appointments
-          </NavigationTab>
-        </div>
+            <p
+              className={`text-xs h-10 ${
+                currentTab && viewTab
+                  ? "border-[.4px] text-[#1e64af] border-dashed border-[#1e64af]"
+                  : ""
+              }  px-3 flex justify-center items-center rounded-lg cursor-pointer`}
+              isView={viewTab}
+              onClick={() => {
+                setViewTab(true);
+                setAppointmentTab(false);
+                setRegisterTab(false);
+                setCurrentTab(true);
+              }}
+            >
+              View Patients
+            </p>
 
-        <div className="switching-tabs mt-5">
-          <RegisterPatient isRegisterTab={registerTab} />
-          <ViewPatients isViewPatientsTab={viewTab} />
-          <Appointments isAppointmentsTab={appointmentTab} />
+            <p
+              className={`text-xs h-10 ${
+                currentTab && appointmentTab
+                  ? "border-[.4px] text-[#1e64af] border-dashed border-[#1e64af]"
+                  : ""
+              }  px-3 flex justify-center items-center rounded-lg cursor-pointer`}
+              isAppointment={appointmentTab}
+              onClick={() => {
+                setViewTab(false);
+                setAppointmentTab(true);
+                setRegisterTab(false);
+                setCurrentTab(true);
+              }}
+            >
+              Appointments
+            </p>
+          </div>
+
+          <div className="switching-tabs mt-5">
+            <RegisterPatient isRegisterTab={registerTab} />
+            <ViewPatients isViewPatientsTab={viewTab} />
+            <Appointments isAppointmentsTab={appointmentTab} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

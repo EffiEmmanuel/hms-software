@@ -9,6 +9,7 @@ import AddVisit from "./AddVisit";
 import ViewVisits from "./ViewVisits";
 import { UserContext } from "../../App";
 import MainContentTop from "../MainContentTop";
+import Navbar from "../Navbar";
 
 function Visits() {
   useDocumentTitle("Internistika | Visits");
@@ -20,43 +21,62 @@ function Visits() {
   const { doctor } = useContext(UserContext);
   const doctorParsed = JSON.parse(localStorage.getItem("doctor"));
 
+  const [isNavBarVisible, setIsNavBarVisible] = useState(false);
+
   return (
-    <div className="main-content" id="main">
-      <MainContentTop />
+    <>
+      <Navbar isNavBarVisible={isNavBarVisible} page="visits" />
 
-      <div className="main account">
-        <div className="navigation-tabs visits">
-          <NavigationTab
-            className={`${currentTab && addVisitTab ? "current-tab" : ""}`}
-            isAddVisit={addVisitTab}
-            onClick={() => {
-              setViewVisitsTab(false);
-              setAddVisitTab(true);
-              setCurrentTab(true);
-            }}
-          >
-            Add Visits
-          </NavigationTab>
+      <div
+        className="pt-[30px] pb-[15px] lg:pl-[23%] px-[1.5rem] w-full"
+        id="main"
+      >
+        <MainContentTop
+          setIsNavBarVisible={setIsNavBarVisible}
+          isNavBarVisible={isNavBarVisible}
+        />
 
-          <NavigationTab
-            className={`${currentTab && ViewVisitsTab ? "current-tab" : ""}`}
-            isViewVisits={ViewVisitsTab}
-            onClick={() => {
-              setAddVisitTab(false);
-              setViewVisitsTab(true);
-              setCurrentTab(true);
-            }}
-          >
-            View Visits
-          </NavigationTab>
-        </div>
+        <div className="main account">
+          <div className="flex items-center gap-x-14 border-b-[.3px] border-b-gray-200 pb-5">
+            <p
+              //   className={`${currentTab && registerTab ? "current-tab" : ""}`}
+              className={`text-xs h-10 ${
+                currentTab && addVisitTab
+                  ? "border-[.4px] text-[#1e64af] border-dashed border-[#1e64af]"
+                  : ""
+              }  px-3 flex justify-center items-center rounded-lg cursor-pointer`}
+              onClick={() => {
+                setAddVisitTab(true);
+                setViewVisitsTab(false);
+                setCurrentTab(true);
+              }}
+            >
+              Add Visit
+            </p>
 
-        <div className="switching-tabs mt-5">
-          <AddVisit isAddVisit={addVisitTab} />
-          <ViewVisits isViewVisits={ViewVisitsTab} />
+            <p
+              className={`text-xs h-10 ${
+                currentTab && ViewVisitsTab
+                  ? "border-[.4px] text-[#1e64af] border-dashed border-[#1e64af]"
+                  : ""
+              }  px-3 flex justify-center items-center rounded-lg cursor-pointer`}
+              onClick={() => {
+                setAddVisitTab(false);
+                setViewVisitsTab(true);
+                setCurrentTab(true);
+              }}
+            >
+              View Visit
+            </p>
+          </div>
+
+          <div className="switching-tabs mt-5">
+            <AddVisit isAddVisit={addVisitTab} />
+            <ViewVisits isViewVisits={ViewVisitsTab} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

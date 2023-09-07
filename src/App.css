@@ -12,14 +12,6 @@ label {
 }
 
 @media (max-width: 1250px) {
-  input[type="text"].form-control,
-  input[type="email"].form-control,
-  input[type="number"].form-control,
-  select,
-  input[type="tel"].form-control {
-    width: 300px !important;
-  }
-
   .main-content {
     padding: 30px 75px 15px 30% !important;
   }
@@ -31,37 +23,9 @@ label {
   }
 }
 
-@media (max-width: 850px) {
-  .fg-row {
-    flex-direction: column;
-  }
-
-  .fg-row input {
-    width: 380px !important;
-  }
-
-  .main-content#main {
-    padding: 30px 75px 15px 21% !important;
-  }
-
-  .form-group input.hidden {
-    padding: 0;
-    width: 0;
-    height: 0;
-  }
-}
-
 @media (max-width: 576px) {
   .main-content#main {
     padding: 30px 60px 15px 22% !important;
-  }
-
-  input[type="text"].form-control,
-  input[type="email"].form-control,
-  input[type="number"].form-control,
-  select,
-  input[type="tel"].form-control {
-    max-width: 300px !important;
   }
 
   .hidden {

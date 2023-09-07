@@ -19,6 +19,8 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import MainContentTop from "../MainContentTop";
+import Navbar from "../Navbar";
+import AppointmentCard from "../AppointmentCard";
 
 function Dashboard() {
   useDocumentTitle("Internistika | Dashboard");
@@ -28,10 +30,13 @@ function Dashboard() {
   const [patients, setPatients] = useState(0);
   const [visitsData, setVisitsData] = useState();
 
+  const [isNavBarVisible, setIsNavBarVisible] = useState(false);
+
   const { doctor } = useContext(UserContext);
 
   console.log("VISITS:", visits);
   console.log("PATIENTES:", patients);
+  console.log("DOCTOR:", doctor);
 
   useEffect(() => {
     async function getDoctors() {
@@ -109,48 +114,139 @@ function Dashboard() {
     getPatients();
   }, []);
 
+  const [fetchedAppointments, setFetchedAppointments] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function getAppointments() {
+    setIsLoading(true);
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
+
+    await axios
+      .get(
+        `http://localhost:8080/api/v1/doctors/appointments/get-doctor-appointments/${
+          myDoctor?._id
+        }?page=${1}&limit=${5}`
+      )
+      .then((res) => {
+        console.log("FETCH APPOINTMENTS RESPONSE:", res.data);
+        setFetchedAppointments(res.data.appointments);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("FETH APPOINTMENT ERROR:", err);
+      });
+  }
+
+  useEffect(() => {
+    getAppointments();
+  }, []);
+
+  const [patientCount, setPatientCount] = useState();
+  const [appointmentCount, setAppointmentCount] = useState();
+  const [visitCount, setVisitCount] = useState();
+
+  async function getStats() {
+    setIsLoading(true);
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
+
+    await axios
+      .get(`http://localhost:8080/api/v1/doctors/statistics/${myDoctor?._id}`)
+      .then((res) => {
+        console.log("FETCH stats RESPONSE:", res.data);
+        setAppointmentCount(res.data.appointments);
+        setPatientCount(res.data.patients);
+        setVisitCount(res.data.visits);
+
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("FETH APPOINTMENT ERROR:", err);
+      });
+  }
+
+  useEffect(() => {
+    getStats();
+  }, []);
+
   return (
-    <div className="main-content" id="main">
-      <MainContentTop />
+    <>
+      <Navbar isNavBarVisible={isNavBarVisible} page="home" />
 
-      <div className="banner"></div>
+      <div
+        className="pt-[30px] pr-[35px] pb-[15px] lg:pl-[21%] px-[1.5rem] w-full"
+        id="main"
+      >
+        <MainContentTop
+          setIsNavBarVisible={setIsNavBarVisible}
+          isNavBarVisible={isNavBarVisible}
+        />
 
-      <div className="top-schedule">
-        <h4>Top Schedule</h4>
+        <div className="banner"></div>
 
-        <div className="schedule-table">
-          <div className="table-title">
-            <p>FULLNAME</p>
-            <p>VISIT TYPE</p>
-            <p>DIAGNOSIS</p>
-          </div>
+        <div className="stats my-10">
+          <StatCard
+            icon={patientsIcon}
+            number={patientCount ?? 0}
+            text="Patients"
+            isLoading={isLoading}
+          />
+          <StatCard
+            icon={doctorsIcon}
+            number={appointmentCount ?? 0}
+            text="Appointments"
+            isLoading={isLoading}
+          />
+          <StatCard
+            icon={visitsIcon}
+            number={visitCount ?? 0}
+            text="Total visits"
+            isLoading={isLoading}
+          />
+        </div>
 
-          <div className="table-content">
-            <>
-              {visitsData?.map((item, index) => (
-                <div
-                  key={index}
-                  className={`table-item ${!index % 2 == 0 ? "plain" : ""}`}
-                >
-                  <p>
-                    {item?.attributes?.patient?.data?.attributes?.firstName}{" "}
-                    {item?.attributes?.patient?.data?.attributes?.lastName}
-                  </p>
-                  <p>{item?.attributes?.type}</p>
-                  <p>{item?.attributes?.diagnosis}</p>
-                </div>
-              ))}
-            </>
+        <div className="top-schedule">
+          <h4 className="text-xl">Top Schedule</h4>
+
+          <div className="schedule-table">
+            {fetchedAppointments?.length > 0 && (
+              <div className="table-title mt-3">
+                <p className="w-[20%]">FIRSTNAME</p>
+                <p className="w-[20%]">LASTNAME</p>
+                <p className="w-[20%]">DATE</p>
+                <p className="w-[20%]">TIME</p>
+                <p className="w-[20%]">ACTIONS</p>
+              </div>
+            )}
+
+            <div className="table-content">
+              <>
+                {fetchedAppointments?.map((appointment) => {
+                  return (
+                    <AppointmentCard
+                      firstname={appointment?.patient?.firstName}
+                      lastname={appointment?.patient?.lastName}
+                      date={appointment?.date}
+                      time={appointment?.time}
+                      id={appointment?._id}
+                      getAppointments={getAppointments}
+                    />
+                  );
+                })}
+
+                {fetchedAppointments?.length == 0 && (
+                  <h5
+                    style={{ textAlign: "center" }}
+                    className="text-xs my-10 mb-20"
+                  >
+                    There is nothing to show here for now...
+                  </h5>
+                )}
+              </>
+            </div>
           </div>
         </div>
       </div>
-
-      <div className="stats">
-        <StatCard icon={patientsIcon} number={patients} text="Patients" />
-        <StatCard icon={doctorsIcon} number={doctors} text="Doctors" />
-        <StatCard icon={visitsIcon} number={visits} text="Total visits" />
-      </div>
-    </div>
+    </>
   );
 }
 

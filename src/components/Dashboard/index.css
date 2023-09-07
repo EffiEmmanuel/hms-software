@@ -3,7 +3,6 @@
   min-height: 100vh;
   right: 0;
   top: 0;
-  padding: 30px 35px 15px 23%;
 }
 
 .main-content-top {
@@ -21,7 +20,7 @@
 }
 
 .hms-blue-text {
-  color: #2a5482;
+  color: #1e64af;
 }
 
 .banner {

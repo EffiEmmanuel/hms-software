@@ -37,39 +37,52 @@ function LoginForm() {
 
   return (
     <form className="form-container mt-4" onSubmit={handleSubmit}>
-      <div className="form-group">
+      <div className="w-full relative my-2">
+        <label
+          htmlFor="email"
+          className="text-sm absolute left-0 text-solyntaYellow"
+        >
+          Email Address
+        </label>
         <input
+          className="w-full h-14 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+          id="email"
           type="email"
           name="email"
-          id="email"
-          className="form-control my-3"
-          placeholder="Email address"
           value={values.email}
           onChange={handleChange}
-          onBlur={handleBlur}
+          placeholder="Email Address"
         />
-        {/* Displaying the error to the user if it exists */}
-        {errors.email && <p className="error">{errors.email}</p>}
-      </div>
 
-      <div className="form-group">
+        <p className="text-left mt-3 text-xs">
+          {errors.email ? errors.email : ""}
+        </p>
+      </div>
+      <div className="w-full relative my-2">
+        <label
+          htmlFor="password"
+          className="text-sm absolute left-0 text-solyntaYellow"
+        >
+          Password
+        </label>
         <input
+          className="w-full h-14 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
+          id="password"
           type="password"
           name="password"
-          id="password"
-          className="form-control my-3 mt-4"
-          placeholder="Password"
           value={values.password}
           onChange={handleChange}
-          onBlur={handleBlur}
+          placeholder="********"
         />
-        {/* Displaying the error to the user if it exists */}
-        {errors.password && <p className="error">{errors.password}</p>}
+
+        <p className="text-left mt-3 text-xs">
+          {errors.password ? errors.password : ""}
+        </p>
       </div>
 
       <button
         type="submit"
-        className="btn submit-button mt-4"
+        className="h-14 hover:bg-[#181818] transition-all hover:border-none px-7 py-2 w-full mt-2 rounded-lg border-[0.5px] border-[#fff] text-white"
         disabled={isSubmitting}
       >
         Sign in

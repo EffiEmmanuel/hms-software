@@ -12,9 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoutes";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const UserContext = React.createContext({
-  loginDoctor: (values, actions, navigator) => {},
-});
+export const UserContext = React.createContext();
 
 function App() {
   const [doctor, setDoctor] = useState();
@@ -26,20 +24,15 @@ function App() {
 
   async function loginDoctor(values, actions) {
     console.log("INSIDE ON SUBMIT FUNCTION FRONTEND");
-    const value = {
-      identifier: values.email,
-      password: values.password,
-    };
+
     // API call to the server
     await axios
       .post(
-        // `${process.env.REACT_APP_BASE_URL}/admin`
-        `${process.env.REACT_APP_BASE_URL}/auth/local`,
-        JSON.stringify(value),
+        // `http://localhost:8080/api/v1/doctors/admin`
+        `http://localhost:8080/api/v1/doctors/login`,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          email: values.email,
+          password: values.password,
         }
       )
       .then((response) => {
@@ -56,16 +49,16 @@ function App() {
         });
 
         navigator("/");
-        localStorage.setItem("internistikaLoginToken", response.data.jwt);
-        localStorage.setItem("doctor", JSON.stringify(response.data.user));
-        setDoctor(response.data.user);
+        localStorage.setItem("internistikaLoginToken", response.data.token);
+        localStorage.setItem("doctor", JSON.stringify(response.data.doctor));
+        setDoctor(response.data.doctor);
       })
       .catch((error) => {
         console.log(error);
         // Calling a sweet alert message
         Swal.fire({
           title: "An error occured",
-          text: error.response.data.error.message,
+          text: error.response.data.message,
           timer: 2000,
           icon: "error",
         });
@@ -73,28 +66,27 @@ function App() {
   }
 
   async function updateDoctor(values) {
-    const token = localStorage.getItem("internistikaLoginToken");
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
 
     await axios
-      .put(
-        `${process.env.REACT_APP_BASE_URL}/users/${doctor?.id}`,
-        JSON.stringify(values),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      .patch(
+        `http://localhost:8080/api/v1/doctors/update/${myDoctor?._id}`,
+        values
       )
       .then((res) => {
         console.log("UPDATE RESPONSE:", res.data);
-        setDoctor(res.data);
+        setDoctor(res.data?.doctor);
+
+        localStorage?.setItem("doctor", JSON.stringify(res.data?.doctor));
+
         Swal.fire({
           title: "Update Successful!",
           text: "Your details have been updated successfully.",
           timer: 2000,
           icon: "success",
         });
+
+        // window.location.reload();
       })
       .catch((err) => {
         console.log("ERROR:", err);
@@ -103,7 +95,7 @@ function App() {
             err?.response?.data?.message ||
             "An error occured, Please try again. If the problem persists, kindly logout and log back into your account, thank you!",
           timer: 2000,
-          icon: "success",
+          icon: "error",
         });
       });
   }
@@ -114,16 +106,7 @@ function App() {
     const token = localStorage.getItem("internistikaLoginToken");
 
     await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/patients`,
-        JSON.stringify({ data: value }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .post(`http://localhost:8080/api/v1/doctors/patients/create`, value)
       .then((res) => {
         console.log("UPDATE RESPONSE:", res.data);
         const newPatient = res.data;
@@ -153,7 +136,7 @@ function App() {
   async function fetchPatients(values, actions) {
     const token = localStorage.getItem("internistikaLoginToken");
     await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/patients/`, {
+      .get(`http://localhost:8080/api/v1/doctors/patients/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -176,15 +159,15 @@ function App() {
   }
 
   async function fetchAppointments() {
-    const token = localStorage.getItem("internistikaLoginToken");
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
 
     await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/appointments`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(
+        `http://localhost:8080/api/v1/doctors/appointments/get-doctor-appointments/${myDoctor?._id}`
+      )
       .then((res) => {
         console.log("FETCH APPOINTMENTS RESPONSE:", res.data.data);
-        setAppointments(res.data.data);
+        setAppointments(res.data.appointments);
       })
       .catch((err) => {
         console.log("ERROR:", err);
@@ -200,31 +183,28 @@ function App() {
   }
 
   async function addAppointment(value) {
-    const token = localStorage.getItem("internistikaLoginToken");
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
+
+    console.log("VALUE:", value);
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/appointments`,
-        JSON.stringify({ data: value }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:8080/api/v1/doctors/appointments/create/${myDoctor?._id}/${value?.patient}`,
+        value
       )
       .then((res) => {
         console.log("ADD APPOINTMENTS RESPONSE:", res.data);
+        fetchAppointments();
         Swal.fire({
           title: "Successful!",
           text: "Appointment details have been saved successfully.",
           timer: 2000,
           icon: "success",
         });
-        navigator("/");
+        // navigator("/");
       })
       .catch((err) => {
-        console.log("ERROR:", err);
+        console.log("add app ERROR:", err);
         Swal.fire({
           title: "Error",
           text:
@@ -240,16 +220,9 @@ function App() {
     const token = localStorage.getItem("internistikaLoginToken");
 
     await axios
-      .put(
-        `${process.env.REACT_APP_BASE_URL}/appointments/${id}`,
-        JSON.stringify({ data: { markedAsDone: true } }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .patch(`http://localhost:8080/api/v1/doctors/appointments/update/${id}`, {
+        markedAsDone: true,
+      })
       .then((res) => {
         console.log("MARKED AS DONE APPOINTMENT RESPONSE:", res.data);
         fetchAppointments();
@@ -274,12 +247,10 @@ function App() {
   }
 
   async function deleteAppointment(id) {
-    const token = localStorage.getItem("internistikaLoginToken");
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
 
     await axios
-      .delete(`${process.env.REACT_APP_BASE_URL}/appointments/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .delete(`http://localhost:8080/api/v1/doctors/appointments/delete/${id}`)
       .then((res) => {
         console.log("DELETE APPOINTMENTS RESPONSE:", res.data);
         fetchAppointments();
@@ -304,25 +275,19 @@ function App() {
   }
 
   async function addVisit(values) {
-    const token = localStorage.getItem("internistikaLoginToken");
+    const myDoctor = JSON.parse(localStorage.getItem("doctor"));
 
     console.log("VISIT VALUES:", values);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/visits`,
-        JSON.stringify({ data: values }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:8080/api/v1/doctors/visits/create/${myDoctor?._id}/${values?.patient}`,
+        values
       )
       .then((res) => {
-        console.log("ADD VISIT RESPONSE:", res.data.data);
+        console.log("ADD VISIT RESPONSE:", res.data);
         // const newVisit = res.data.data;
         // setVisits(visits.push({ newVisit }));
-        navigator("/");
+        // navigator("/");
         Swal.fire({
           title: "Successful!",
           text: "Visit details have been saved successfully.",
@@ -347,7 +312,7 @@ function App() {
     const token = localStorage.getItem("internistikaLoginToken");
 
     await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/visits?populate=*`, {
+      .get(`http://localhost:8080/api/v1/doctors/visits?populate=*`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -366,9 +331,9 @@ function App() {
 
     if (isUserLoggedIn && doctor) {
       navigator("/");
-      fetchPatients();
-      fetchAppointments();
-      fetchVisits();
+      //   fetchPatients();
+      //   fetchAppointments();
+      //   fetchVisits();
       setDoctor(JSON.parse(doctor));
     } else {
       navigator("/login");
@@ -400,7 +365,7 @@ function App() {
         }}
       >
         <div className="app-wrapper">
-          {localStorage.getItem("internistikaLoginToken") && <Navbar />}
+          {/* {localStorage.getItem("internistikaLoginToken") && <Navbar />} */}
           <Routes>
             <Route path="/login" element={<Login />} />
 
