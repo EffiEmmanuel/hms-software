@@ -301,7 +301,7 @@ function Appointments({ isAppointmentsTab }) {
         <div className="flex justify-center gap-x-5 text-sm">
           <button
             disabled={isPreviousDisabled}
-            className="h-10 w-32 bg-[#181818] text-white rounded-lg disabled:bg-gray-300"
+            className="h-10 w-32 bg-[#181818] text-xs text-white rounded-lg disabled:bg-gray-300"
             onClick={() => {
               setIsNextDisabled(false);
               const previousPage = currentPage - 1;
@@ -318,7 +318,7 @@ function Appointments({ isAppointmentsTab }) {
           </button>
           <button
             disabled={isNextDisabled}
-            className="h-10 w-32 bg-[#1e64af] text-white rounded-lg disabled:bg-gray-300"
+            className="h-10 w-32 bg-[#1e64af] text-xs text-white rounded-lg disabled:bg-gray-300"
             onClick={() => {
               if (isPreviousDisabled) setIsPreviousDisabled(false);
               setCurrentPage(currentPage + 1);

@@ -10,6 +10,10 @@ import axios from "axios";
 import Modal from "react-modal";
 
 function ViewVisits({ isViewVisits }) {
+  const [page, setPage] = useState(1);
+  const [isPreviousDisabled, setIsPreviousDisabled] = useState(false);
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
+
   const [visitDetailDisplay, setVisitDetailDisplay] = useState("none");
   const [overlayDisplay, setOverlayDisplay] = useState("none");
 
@@ -20,7 +24,6 @@ function ViewVisits({ isViewVisits }) {
   let componentRef = useRef();
 
   const { visits } = useContext(UserContext);
-  console.log("WETIN HAPPEN!!", visits);
 
   const [fetchedVisits, setFetchedVisits] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -45,8 +48,8 @@ function ViewVisits({ isViewVisits }) {
   }
 
   useEffect(() => {
-    if (isViewVisits) getVisits(1);
-  }, [isViewVisits]);
+    if (isViewVisits) getVisits(page);
+  }, [page, isViewVisits]);
 
   return (
     <>
@@ -204,6 +207,7 @@ function ViewVisits({ isViewVisits }) {
             <p>FULLNAME</p>
             <p>EMAIL</p>
             <p>TYPE</p>
+            <p>DATE</p>
           </div>
           <ol className="visit-ol-print" id="visit-ol-print">
             {fetchedVisits?.map((visit) => (
@@ -222,15 +226,52 @@ function ViewVisits({ isViewVisits }) {
                 <p className="text-xs max-w-md">{visit?.patient?.email}</p>
                 {/* <hr /> */}
                 <p className="text-xs max-w-md">{visit?.type}</p>
+                <p className="text-xs max-w-md">
+                  {visit?.createdAt?.split("T")[0]}
+                </p>
               </div>
             ))}
 
-            {visits?.length === 0 && (
-              <h5 style={{ textAlign: "center", marginTop: "40px" }}>
+            {fetchedVisits?.length === 0 && (
+              <h5 style={{ textAlign: "center" }} className="text-xs my-20">
                 There is nothing to show here for now...
               </h5>
             )}
           </ol>
+        </div>
+
+        <div className="flex justify-center gap-x-5 text-sm">
+          <button
+            disabled={isPreviousDisabled}
+            className="h-10 w-32 bg-[#181818] text-xs text-white rounded-lg disabled:bg-gray-300"
+            onClick={() => {
+              setIsNextDisabled(false);
+              const previousPage = page - 1;
+              if (!(previousPage < 1)) {
+                setPage(page - 1);
+              } else if (page >= 1) {
+                setIsPreviousDisabled(true);
+              } else {
+                setIsPreviousDisabled(true);
+              }
+            }}
+          >
+            Previous Page
+          </button>
+          <button
+            disabled={isNextDisabled}
+            className="h-10 w-32 bg-[#1e64af] text-xs text-white rounded-lg disabled:bg-gray-300"
+            onClick={() => {
+              if (isPreviousDisabled) setIsPreviousDisabled(false);
+              setPage(page + 1);
+              if (!fetchedVisits || fetchedVisits?.length == 0) {
+                setIsNextDisabled(true);
+                setPage(page - 1);
+              }
+            }}
+          >
+            Next Page
+          </button>
         </div>
       </ViewVisitsTab>
     </>
